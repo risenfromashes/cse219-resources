@@ -1,0 +1,54 @@
+# Local secrets
+secrets/*
+!secrets/.gitkeep
+
+# Python helpers
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.listing
+*.lof
+*.log
+*.lol
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+# Local scratch / generated text outputs
+latex_out.txt
+output.txt
+indent.log
+
+
+# Rendered PDF page previews
+slides/**/page-*.png
+slides/**/page*.png
+slides/**/p[0-9]*-[0-9]*.png
+
+.agents/
+
+**/ref/*.pdf

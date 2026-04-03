@@ -1,0 +1,158 @@
+\documentclass[11pt,answers]{exam}
+\usepackage[legalpaper,bindingoffset=0in,left=.6in,right=0.8in,top=0.4in,bottom=0.7in,headsep=.5\baselineskip]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts, positioning, arrows.meta, shapes.geometric, shadows, calc, patterns, 3d, backgrounds, shadings}
+\usepackage{adjustbox}
+\usepackage{ragged2e}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} % Added to suppress pgfplots warning
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
+
+\usepackage{xcolor}
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    aboveskip={1.0\baselineskip},
+    belowskip={1.0\baselineskip},
+    columns=fixed,
+    extendedchars=true,
+    breaklines=true,
+    tabsize=4,
+    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+    frame=lines,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    keywordstyle=\color[rgb]{0.627,0.126,0.941},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{01,0,0},
+    numbers=left,
+    numberstyle=\small,
+    stepnumber=1,
+    numbersep=10pt,
+    captionpos=t,
+    escapeinside={\%*}{*)}
+}
+
+\pointsdroppedatright
+
+\title{
+\vspace{-1.5cm} % Pull the title up closer to the top margin
+\begin{changemargin}{0.68cm}{0.68cm} 
+\normalsize Class Test 4\hfill {July 2025}\\
+\end{changemargin} 
+\vspace{.4cm}
+\large BANGLADESH UNIVERSITY OF ENGINEERING AND TECHNOLOGY\\
+\vspace{.1cm}
+Department of Computer Science and Engineering\\
+\vspace{.2cm}
+Course Code: CSE 219 \hspace{.1cm} Course Title: Signals and Linear Systems\\
+\vspace{.2cm}
+\textbf{Time: 25 minutes} \hspace{2.2cm} \textbf{Marks: 20}
+\begin{changemargin}{0.68cm}{0.68cm} 
+\normalsize Student Name: \underline{\hspace{6.5cm}} \hfill Student ID: \underline{\hspace{2.5cm}}\\
+\end{changemargin} 
+}
+\date{} % Prevents today's date from rendering below the title
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty} % Removes the page number from the first page
+\vspace{-2.4cm} % Reduces the default space left by maketitle 
+
+\begin{center}
+    Answer \textbf{exactly 2 out of Questions 1--4}. \textbf{Question 5 is mandatory.} Answer concisely.
+\end{center}
+
+\begin{questions}
+
+    % Question 1
+    \question Consider the signal $x[n]$ defined as follows for $N=4$: \hfill [8]
+    \[
+        x[n] = \begin{cases} 1, & \text{if } n=0 \\ 0, & \text{if } 1 \leq n < N \end{cases}
+    \]
+
+    \begin{parts}
+        \part Compute the 4-point radix-2 DIT FFT of the signal. Draw a butterfly diagram and show your calculations on the diagram.
+        \part If $x[n]$ is viewed as samples of an aperiodic continuous-time signal, what might be a continuous-time signal corresponding to it?
+        \part Based on your answer in (b), interpret your result from (a). If the sequence is zero-padded to length $32$, what is its 32-point DFT? Briefly justify.
+        \part In a radix-2 DIT FFT, we typically use bit-reversed order for the input $x[n]$. Imagine you forgot to use bit-reversed order and used natural order for the input instead, resulting in a sequence $X'[k]$. Determine the signal $x'[n]$ whose DFT is actually $X'[k]$.
+    \end{parts}
+    \vspace{0.2cm}
+
+    % Question 2
+    \question In many cases, the radix-4 FFT is highly efficient. Suppose you are deriving the radix-4 DIT Cooley-Tukey algorithm. You have already established that for $0 \leq k < N/4$: \hfill [8]
+    \[
+        X[k] = G_0[k] + W_N^k G_1[k] + W_N^{2k} G_2[k] + W_N^{3k} G_3[k]
+    \]
+    Where \[
+        G_m[k] = \sum_{r=0}^{N/4-1} x[4r+m]\, W_{N/4}^{kr}, \qquad m=0,1,2,3
+    \].
+
+    \begin{parts}
+        \part Derive the formulas for $X[k+N/4]$, $X[k+2N/4]$, and $X[k+3N/4]$.
+        \part Draw the radix-4 butterfly for the case $N=4$. \\
+        \textit{Hint: Instead of just $\pm 1$, there will also be multiplications involving $\pm j$.}
+    \end{parts}
+    \vspace{0.2cm}
+
+    % Question 3
+    \question Consider two polynomials: \hfill [8]
+    \[
+        A(x) = \sum_{n=0}^{N-1} a[n] x^n \quad \text{and} \quad B(x) = \sum_{n=0}^{N-1} b[n] x^n
+    \]
+    You want to compute their product, $C(x) = A(x)B(x)$.
+
+    \begin{parts}
+        \part Provide a simple, naive algorithm to find the polynomial $C(x)$ and analyze its time complexity.
+        \part If we express $C(x)$ as the sum $\sum c[n]x^n$, determine the valid range for $n$ and provide a general formula for the coefficients $c[n]$.
+        \part Express the coefficient sequence $c[n]$ as a convolution.
+        \part Propose a more efficient algorithm to compute $C(x)$ and analyze the time complexity of your proposed algorithm.
+    \end{parts}
+    \vspace{0.2cm}
+
+    % Question 4
+    \question In image processing, we often use a 2-dimensional version of the DFT, which is defined as: \hfill [8]
+    \[
+        X[k_1,k_2]
+        =
+        \sum_{n_1=0}^{N_1-1}\sum_{n_2=0}^{N_2-1}
+        x[n_1,n_2]\,
+        W_{N_1}^{k_1 n_1}
+        W_{N_2}^{k_2 n_2}
+    \]
+    Where $x[n_1, n_2]$ is an $N_1 \times N_2$ matrix and $W_N^k = e^{-j2\pi k/N}$.
+
+    \begin{parts}
+        \part What is the time complexity of a naive algorithm used to compute the 2D DFT?
+        \part How can you interpret the given formula as two successive 1D DFT operations?
+        \part Propose an efficient algorithm (2D FFT) for computing this and analyze its complexity.
+        \part What is the primary difference between your 2D FFT algorithm and Bailey's FFT algorithm?
+    \end{parts}
+    \vspace{0.2cm}
+
+    % Question 5
+    \question[4] Thank you for attending the classes and participating in this CT. \hfill [4]
+
+\end{questions}
+
+\end{document}

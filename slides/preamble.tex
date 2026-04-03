@@ -1,0 +1,144 @@
+\documentclass[9pt, aspectratio=169]{beamer}
+\usetheme{metropolis}
+\usefonttheme{professionalfonts}
+
+% --- Modern Font Setup ---
+\usepackage[T1]{fontenc}
+\usepackage{FiraSans}  % Modern, elegant sans-serif font family
+\usepackage[scaled=0.95]{FiraMono}  % Matching monospace font
+
+% Lighter, more refined font weights
+\renewcommand{\seriesdefault}{l}  % Light weight as default
+\renewcommand{\bfseries}{\fontseries{sb}\selectfont}  % Semi-bold instead of bold
+
+% Custom font sizing - more refined
+\setbeamerfont{title}{size=\Large, series=\fontseries{m}\selectfont}
+\setbeamerfont{subtitle}{size=\normalsize, series=\fontseries{l}\selectfont}
+\setbeamerfont{author}{size=\small, series=\fontseries{l}\selectfont}
+\setbeamerfont{date}{size=\small, series=\fontseries{l}\selectfont}
+\setbeamerfont{frametitle}{size=\normalsize, series=\fontseries{m}\selectfont}
+\setbeamerfont{framesubtitle}{size=\footnotesize, series=\fontseries{l}\selectfont}
+\setbeamerfont{block title}{size=\normalsize, series=\fontseries{m}\selectfont}
+\setbeamerfont{block body}{size=\small}
+\setbeamerfont{itemize/enumerate body}{size=\small}
+\setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
+\setbeamerfont{section in toc}{size=\normalsize, series=\fontseries{m}\selectfont}
+\setbeamerfont{section title}{size=\Large, series=\fontseries{m}\selectfont}
+
+% --- Color Definitions ---
+% Primary Theme Colors
+\definecolor{PrimaryColor}{RGB}{33,52,72}         % Deep navy
+\definecolor{SecondaryColor}{RGB}{84,119,146}     % Desaturated blue-gray
+\definecolor{AccentColor}{RGB}{100,156,165}       % Soft steel blue
+\definecolor{black}{RGB}{0,0,0}
+\definecolor{BackgroundColor}{RGB}{245,247,250}   % Very light cool gray/blue-tinted white
+\definecolor{TextColor}{RGB}{40,55,70}            % Darker, cool-toned charcoal
+\definecolor{LightGray}{RGB}{220,225,230}         % Soft, cool light gray
+\definecolor{DarkGray}{RGB}{70,90,105}            % Cool-toned dark gray
+
+% --- Theme Customization ---
+\setbeamercolor{background canvas}{bg=BackgroundColor}
+\setbeamercolor{normal text}{fg=TextColor}
+\setbeamercolor{frametitle}{bg=PrimaryColor, fg=white}
+\setbeamercolor{section in toc}{fg=PrimaryColor}
+\setbeamercolor{block title}{bg=PrimaryColor!80, fg=white}
+\setbeamercolor{block body}{bg=PrimaryColor!10}
+\setbeamercolor{alerted text}{fg=AccentColor}
+\setbeamercolor{itemize item}{fg=PrimaryColor}
+\setbeamercolor{itemize subitem}{fg=SecondaryColor}
+
+% Progress bar
+\setbeamercolor{progress bar}{fg=AccentColor, bg=LightGray}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{fontawesome5}
+\usepackage{pifont}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins, listings}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{ragged2e}
+
+% --- Packages for plotting discrete and continuous signals and spectrums ---
+\usepackage{tikz}
+\usepackage{circuitikz} % Useful for signal processing block diagrams
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usetikzlibrary{shapes.callouts, positioning, arrows.meta, shapes.geometric, shadows, calc, patterns, backgrounds, shadings, fit, chains, decorations.pathreplacing, intersections}
+\usepgfplotslibrary{fillbetween}
+\usepgfplotslibrary{polar}
+\pgfplotsset{compat=1.18}
+\pgfplotsset{
+    plot coordinates/math parser=false,
+    signal/.style={thick, color=PrimaryColor},
+    spectrum/.style={thick, color=AccentColor},
+    discrete/.style={ycomb, mark=*, mark options={fill=white, draw=PrimaryColor}, color=PrimaryColor, thick},
+}
+
+% --- Custom Commands ---
+\newcommand{\cmark}{\textcolor{PrimaryColor}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{AccentColor}{\ding{55}}}
+\newcommand{\highlight}[1]{\textcolor{PrimaryColor}{\textbf{#1}}}
+
+% --- Custom tcolorbox environments ---
+\newtcolorbox{conceptbox}[1]{
+    colback=PrimaryColor!10,
+    colframe=PrimaryColor,
+    title=#1,
+    fonttitle=\small\bfseries,
+    fontupper=\small,
+    rounded corners
+}
+
+\newtcolorbox{insightbox}[1]{
+    colback=AccentColor!10,
+    colframe=AccentColor,
+    title=#1,
+    fonttitle=\small\bfseries,
+    fontupper=\small,
+    rounded corners
+}
+
+\newtcolorbox{algorithmbox}[1]{
+    colback=SecondaryColor!10,
+    colframe=SecondaryColor,
+    title=#1,
+    fonttitle=\small\bfseries,
+    fontupper=\small,
+    rounded corners
+}
+
+\newtcblisting{codelistingbox}[2][]{
+    colback=SecondaryColor!10,
+    colframe=SecondaryColor,
+    title=#2,
+    fonttitle=\small\bfseries,
+    rounded corners,
+    listing only,
+    listing options={
+            language=#1,
+            basicstyle=\ttfamily\footnotesize,
+            keywordstyle=\color{PrimaryColor}\bfseries,
+            commentstyle=\color{SecondaryColor}\itshape,
+            stringstyle=\color{AccentColor},
+            numbers=left,
+            numberstyle=\tiny\color{DarkGray},
+            stepnumber=1,
+            showstringspaces=false,
+            tabsize=4
+        }
+}
+
+
+\subtitle{Signals and Linear Systems}
+\date{}
+\author{Ashrafur Rahman\\Lecturer, CSE, BUET}
+\institute{ashrafur@cse.buet.ac.bd}
