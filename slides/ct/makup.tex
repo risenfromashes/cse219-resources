@@ -1,0 +1,124 @@
+\documentclass[11pt,answers]{exam}
+\usepackage[legalpaper,bindingoffset=0in,left=.6in,right=0.8in,top=0.4in,bottom=0.7in,headsep=.5\baselineskip]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts, positioning, arrows.meta, shapes.geometric, shadows, calc, patterns, 3d, backgrounds, shadings}
+\usepackage{adjustbox}
+\usepackage{ragged2e}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}
+\item[]}
+\let\endchangemargin=\endlist
+
+\usepackage{xcolor}
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+\lstset{
+  language=C,
+  basicstyle=\ttfamily\small,
+  aboveskip={1.0\baselineskip},
+  belowskip={1.0\baselineskip},
+  columns=fixed,
+  extendedchars=true,
+  breaklines=true,
+  tabsize=4,
+  prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  frame=lines,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  keywordstyle=\color[rgb]{0.627,0.126,0.941},
+  commentstyle=\color[rgb]{0.133,0.545,0.133},
+  stringstyle=\color[rgb]{01,0,0},
+  numbers=left,
+  numberstyle=\small,
+  stepnumber=1,
+  numbersep=10pt,
+  captionpos=t,
+escapeinside={\%*}{*)}
+}
+
+\pointsdroppedatright
+
+\title{
+\vspace{-1.5cm}
+\begin{changemargin}{0.68cm}{0.68cm}
+  \normalsize Class Test 4 Makeup\hfill {July 2025}\\
+\end{changemargin}
+\vspace{.4cm}
+\large BANGLADESH UNIVERSITY OF ENGINEERING AND TECHNOLOGY\\
+\vspace{.1cm}
+Department of Computer Science and Engineering\\
+\vspace{.2cm}
+Course Code: CSE 219 \hspace{.1cm} Course Title: Signals and Linear Systems\\
+\vspace{.2cm}
+\textbf{Time: 25 minutes} \hspace{1.7cm} \textbf{Marks: 20}
+\begin{changemargin}{0.68cm}{0.68cm}
+  \normalsize Student Name: \underline{\hspace{6.5cm}} \hfill Student ID: \underline{\hspace{2.5cm}}\\
+\end{changemargin}
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\vspace{-2.4cm}
+
+\begin{center}
+Answer \textbf{all of Questions 1--3}. Answer concisely.
+\end{center}
+
+\begin{questions}
+
+% Question 1
+\question Consider the sequence
+\[
+  x[n] = \{2,0,1,-1\}, \qquad 0 \le n < 4
+\]
+You want to compute its 4-point DFT using the \textbf{radix-2 DIF FFT}. \hfill [8]
+
+\begin{parts}
+  \part Perform the first butterfly stage and write the intermediate values.
+  \part Complete the second stage and write the outputs in the order produced directly by the DIF algorithm.
+  \part Rearrange the result from part (b) to obtain the DFT in natural order, i.e. $X[0], X[1], X[2], X[3]$.
+  \part Briefly state where bit-reversal appears in radix-2 DIT FFT and where it appears in radix-2 DIF FFT.
+\end{parts}
+\vspace{0.2cm}
+
+% Question 2
+\question In an audio-processing application, a discrete-time signal $x[n]$ of length $L$ is passed through a filter $h[n]$ of length $M$ to produce
+\[
+  y[n] = (x*h)[n].
+\]
+For large $L$ and $M$, you want to compute this efficiently. \hfill [8]
+
+\begin{parts}
+  \part What is the length of the output sequence $y[n]$? What is the time complexity of direct time-domain computation?
+  \part If you compute DFTs of insufficient length, multiply them, and then take an IDFT, what kind of convolution do you obtain instead of linear convolution?
+  \part Propose an FFT-based algorithm to compute the correct filtered output.
+  \part If the transform length is $N$, what condition must $N$ satisfy? What is the resulting asymptotic complexity?
+\end{parts}
+\vspace{0.2cm}
+
+% Question 3
+\question[4] Thank you for attending the classes and participating in this CT. \hfill [4]
+
+\end{questions}
+
+\end{document}
