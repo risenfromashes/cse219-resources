@@ -1091,54 +1091,55 @@
 \end{frame}
 
 \begin{frame}{DTFT Revisited from the Sampled Signal}
-  Earlier in the Nyquist proof we derived the CTFT of the sampled impulse train:
+  Earlier in the \textbf{Recap on DFT} we derived the CTFT of the sampled impulse train:
   \begin{equation*}
     X_p(j\omega)=\sum_{n=-\infty}^{\infty} x[n]e^{-j\omega nT}
   \end{equation*}
 
   \begin{columns}[T]
-        \begin{column}{0.47\textwidth}
-            \footnotesize
-            \begin{align*}
-                X_p(j(\omega+\omega_s))
-                &= \sum_{n=-\infty}^{\infty} x[n]e^{-j(\omega+\omega_s)nT} \\
-                &= \sum_{n=-\infty}^{\infty} x[n]e^{-j\omega nT}e^{-j2\pi n} \\
-                &= X_p(j\omega)
-            \end{align*}
-            \begin{itemize}
-                \setlength{\itemsep}{0.15em}
-                \item This is exactly the physical-frequency sampled spectrum from the Nyquist proof.
-                \item It repeats every $\omega_s=\frac{2\pi}{T}$.
-                \item Under $\omega T \mapsto \omega$, the same expression becomes the DTFT:
-                      \begin{equation*}
-                          X(e^{j\omega})=\sum_{n=-\infty}^{\infty} x[n]e^{-j\omega n}.
-                      \end{equation*}
-            \end{itemize}
-        \end{column}
+    \begin{column}{0.47\textwidth}
+      \footnotesize
+      \begin{align*}
+        X_p(j(\omega+\omega_s))
+        &= \sum_{n=-\infty}^{\infty} x[n]e^{-j(\omega+\omega_s)nT} \\
+        &= \sum_{n=-\infty}^{\infty} x[n]e^{-j\omega nT}e^{-j2\pi n} \\
+        &= X_p(j\omega)
+      \end{align*}
+      \begin{itemize}
+          \setlength{\itemsep}{0.15em}
+        \item This is exactly the sampled spectrum from the Nyquist proof.
+        \item It repeats every $\omega_s=\frac{2\pi}{T}$.
+        \item Under $\omega T \mapsto \omega$, the same expression becomes the DTFT:
+          \begin{equation*}
+            X(e^{j\omega})=\sum_{n=-\infty}^{\infty} x[n]e^{-j\omega n}.
+          \end{equation*}
+      \end{itemize}
+    \end{column}
 
     \begin{column}{0.49\textwidth}
       \centering
       \begin{tikzpicture}
-                \begin{axis}[
-                    width=\textwidth, height=4.8cm,
+        \begin{axis}[
+            width=\textwidth, height=4.8cm,
             axis lines=middle, axis line style={-{Latex}},
-            xmin=-10.5, xmax=10.5, ymin=-0.25, ymax=2.15,
+            xmin=-10.5, xmax=10.5, ymin=-0.25, ymax=2.25,
             xtick={-8,-4,0,4,8},
             xticklabels={$-\omega_s$, $-\omega_s/2$, $0$, $\omega_s/2$, $\omega_s$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$|X_p(j\omega)|$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={
               gauss(\x)=1.35*exp(-(\x*\x)/8);
               xp(\x)=gauss(\x)+gauss(\x-8)+gauss(\x+8);
             }
           ]
-          \fill[PrimaryColor!10] (axis cs:-4,0) rectangle (axis cs:4,1.45);
+          \fill[PrimaryColor!30,opacity=0.5] (axis cs:-4,0) rectangle (axis cs:4,1.45);
+          \fill[AccentColor!30,opacity=0.5] (axis cs:-12,0) rectangle (axis cs:-4,1.45);
+          \fill[AccentColor!30,opacity=0.5] (axis cs:4,0) rectangle (axis cs:12,1.45);
           \addplot[samples=180, domain=-10:10, very thick, PrimaryColor] {xp(x)};
-          \draw[<->, thick, gray] (axis cs:-4,1.72) -- node[above] {one period $=\omega_s$} (axis cs:4,1.72);
-          \node[font=\scriptsize, PrimaryColor!80!black] at (axis cs:0,1.55) {one physical period};
-          \node[font=\scriptsize, AccentColor] at (axis cs:7.2,0.8) {shifted copy};
-          \node[font=\scriptsize, AccentColor] at (axis cs:-7.2,0.8) {shifted copy};
+          \draw[<->, thick, gray,font=\scriptsize] (axis cs:-4,1.72) -- node[above] {one period $=\omega_s$} (axis cs:4,1.72);
+          \node[font=\scriptsize, AccentColor] at (axis cs:7.2,0.2) {shifted copy};
+          \node[font=\scriptsize, AccentColor] at (axis cs:-7.2,0.2) {shifted copy};
         \end{axis}
       \end{tikzpicture}
     \end{column}
@@ -1179,7 +1180,7 @@
             xticklabels={$-\omega_s$, $-\omega_s/2$, $0$, $\omega_s/2$, $\omega_s$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$|X_p(j\omega)|$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={
               widegauss(\x)=1.28*exp(-(\x*\x)/10);
               xp(\x)=widegauss(\x)+widegauss(\x-8)+widegauss(\x+8);
@@ -1189,10 +1190,10 @@
           \addplot[samples=180, domain=-10:10, very thick, PrimaryColor] {xp(x)};
           \addplot[SecondaryColor, thick, dashed, samples=120, domain=-4:4] {widegauss(x)};
           \draw[very thick, SecondaryColor] (axis cs:-4,1.56) -- (axis cs:-4,1.94) -- (axis cs:4,1.94) -- (axis cs:4,1.56);
-          \node[SecondaryColor, font=\bfseries] at (axis cs:0,2.08) {ideal LPF keeps this band};
+          \node[SecondaryColor, font=\bfseries\scriptsize] at (axis cs:0,2.08) {ideal LPF keeps this band};
           \node[font=\scriptsize] at (axis cs:0,1.56) {original copy};
-          \node[font=\scriptsize, AccentColor] at (axis cs:7.2,0.9) {shifted copy};
-          \node[font=\scriptsize, AccentColor] at (axis cs:-7.2,0.9) {shifted copy};
+          \node[font=\scriptsize, AccentColor] at (axis cs:7.2,0.2) {shifted copy};
+          \node[font=\scriptsize, AccentColor] at (axis cs:-7.2,0.2) {shifted copy};
         \end{axis}
       \end{tikzpicture}
     \end{column}
@@ -1206,41 +1207,42 @@
           \setlength{\itemsep}{0.3em}
         \item Ideal reconstruction uses one $\omega_s$-wide period of the sampled spectrum:
           \begin{equation*}
-            x(t)=\frac{1}{2\pi}\int_{-\omega_s/2}^{\omega_s/2} T X_p(j\omega)e^{j\omega t}\,d\omega
+            x(t)=\frac{1}{2\pi}\int_{-\omega_s/2}^{\omega_s/2} X_p(j\omega)e^{j\omega t}\,Td\omega
           \end{equation*}
-        \item At the sample locations,
-          \begin{equation*}
-            x[n]=x(nT).
-          \end{equation*}
-        \item After the same normalization, we simply read this as the discrete-time sequence.
+        \item After the same mapping $\omega T \mapsto \omega$  used to derive the DTFT,
+          \begin{align*}
+            X_p(j\omega) & \longrightarrow X(e^{j\omega}) \\
+            T d\omega &\longrightarrow d\omega
+          \end{align*}
+
+        \item Also,
+          \begin{center}
+            \begin{tikzpicture}[ scale=0.45]
+              \node at (0,0) {$[-\omega_s/2,\omega_s/2]$};
+              \draw[->, thick] (2.3,0) -- node[above] {$\omega T \mapsto \omega$} (5.6,0);
+              \node at (6.8,0) {$[-\pi,\pi]$};
+            \end{tikzpicture}
+          \end{center}
       \end{itemize}
 
-      \vspace{0.18cm}
-      \begin{center}
-        \begin{tikzpicture}[>=Latex]
-          \node at (0,0) {$[-\omega_s/2,\omega_s/2]$};
-          \draw[->, thick] (1.9,0) -- node[above] {$\omega T \mapsto \omega$} (5.3,0);
-          \node at (6.8,0) {$[-\pi,\pi]$};
-        \end{tikzpicture}
-      \end{center}
     \end{column}
 
     \begin{column}{0.58\textwidth}
       \small
+      Applying the mapping at the sample locations,
       \begin{align*}
         x[n]=x(nT)
-        &= \frac{1}{2\pi}\int_{-\omega_s/2}^{\omega_s/2}
-        T X_p(j\omega)e^{j\omega nT}\,d\omega \\
-        &\xrightarrow{\ \omega T \mapsto \omega\ }
-        \frac{1}{2\pi}\int_{-\pi}^{\pi} X(e^{j\omega})e^{j\omega n}\,d\omega
+        &= \frac{1}{2\pi}\int_{-\pi}^{\pi} X(e^{j\omega})e^{j\frac{\omega}{T} Tn}\,d\omega \\
+        &= \frac{1}{2\pi}\int_{-\pi}^{\pi} X(e^{j\omega})e^{j\omega n}\,d\omega
       \end{align*}
       \vspace{0.04cm}
       \begin{conceptbox}{Inverse DTFT}
         \vspace{-0.2cm}
         \begin{equation*}
-          x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi} X(e^{j\omega})e^{j\omega n}\,d\omega
+          x[n]=\frac{1}{2\pi}\int_{2\pi} X(e^{j\omega})e^{j\omega n}\,d\omega
         \end{equation*}
       \end{conceptbox}
+      As the area is the same regardless of which period we choose.
     \end{column}
   \end{columns}
 \end{frame}
@@ -1274,7 +1276,7 @@
             xticklabels={$0$, $\omega_s/2$, $\omega_s$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$|X_p(j\omega)|$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={
               gauss(\x)=1.25*exp(-(\x*\x)/6);
               xp(\x)=(\x <= 4) ? gauss(\x) : gauss(\x-8);
@@ -1283,9 +1285,9 @@
           \addplot[samples=150, domain=0:8, thick, PrimaryColor!40] {xp(x)};
           \addplot[ycomb, mark=*, mark size=1.25pt, thick, AccentColor, samples=16, domain=0:7.5] {xp(x)};
           \draw[dashed, DarkGray, thin] (axis cs:4,-0.28) -- (axis cs:4,1.42);
-          \draw[<->] (axis cs:0,-0.5) -- node[below] {$\omega_s/N$} (axis cs:0.5,-0.5);
-          \draw[<->, thick, PrimaryColor] (axis cs:0,-0.24) -- node[below, font=\scriptsize] {positive} (axis cs:4,-0.24);
-          \draw[<->, thick, AccentColor] (axis cs:4,-0.24) -- node[below, font=\scriptsize, align=center] {wrapped\\negative} (axis cs:8,-0.24);
+          \draw[<->] (axis cs:0,-0.6) -- node[below] {$\omega_s/N$} (axis cs:0.5,-0.6);
+          \draw[<->, thick, PrimaryColor] (axis cs:0,-0.44) -- node[below, font=\scriptsize] {positive} (axis cs:4,-0.44);
+          \draw[<->, thick, AccentColor] (axis cs:4,-0.44) -- node[below, font=\scriptsize, align=center] {wrapped\\negative} (axis cs:8,-0.44);
           \node[AccentColor, font=\scriptsize] at (axis cs:2.15,1.38) {DFT evaluates $N$ bins};
         \end{axis}
       \end{tikzpicture}
@@ -1343,7 +1345,7 @@
             xtick={0,2}, xticklabels={$0$, $\omega_0$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$X(j\omega)$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={gauss(\x)=1.3*exp(-(\x*\x)/6);}
           ]
           \addplot[ycomb, mark=triangle*, thick, PrimaryColor, samples=5, domain=0:4, mark size=2pt] {gauss(x)};
@@ -1358,6 +1360,7 @@
   \begin{columns}[T]
     \begin{column}{0.46\textwidth}
       \small
+      From the Nyquist proof, the sampled spectrum is a sum of shifted copies of the original spectrum:
       \begin{align*}
         X_p(j\omega)
         &= \frac{1}{T}\sum_{r=-\infty}^{\infty} X(j(\omega-r\omega_s)) \\
@@ -1384,7 +1387,7 @@
             xtick={0,8}, xticklabels={$0$, $\omega_s$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$X_p(j\omega)$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={amp(\x)=1.3*exp(-(\x*\x)/6);}
           ]
           \addplot[ycomb, mark=triangle*, thick, PrimaryColor, samples=6, domain=0:5, mark size=2pt] {amp(x)};
@@ -1448,7 +1451,7 @@
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
       \small
-      From the recap derivation, the sampled periodic signal itself has the Fourier series
+      From the \textbf{Recap on DFT} derivation, the sampled periodic signal itself has the Fourier series
       \begin{equation*}
         x_p(t)=\sum_{\ell=-\infty}^{\infty} c_\ell e^{j\ell\omega_0 t},
         \qquad
@@ -1464,6 +1467,8 @@
         &= 2\pi\sum_{r=-\infty}^{\infty}\sum_{k\in\mathcal{K}}
         c_k\delta(\omega-k\omega_0-r\omega_s).
       \end{align*}
+
+      This equation matches exactly with the previous one. Therefore, the coefficients must be related.
     \end{column}
 
     \begin{column}{0.48\textwidth}
@@ -1494,7 +1499,7 @@
           c_k=\frac{a_k}{T}, \qquad X[k]=T_0c_k=\frac{T_0}{T}a_k=Na_k
         \end{equation*}
       \end{conceptbox}
-      {\footnotesize The comparison is made on the non-overlapping baseband harmonics. If $T=1$, this reads $X[k]=T_0a_k$.}
+      {\footnotesize Hence, if the periodic signal is bandlimited to the Nyquist band, the DFT bins are scaled versions of the original Fourier series coefficients.}
     \end{column}
   \end{columns}
 \end{frame}
@@ -1511,34 +1516,34 @@
             xtick={-4,0,4}, xticklabels={$-\omega_s/2$, $0$, $\omega_s/2$},
             ytick=\empty, xlabel={$\omega$}, ylabel={$T X_p(j\omega)$}, clip=false,
             xlabel style={anchor=west, xshift=10pt},
-            ylabel style={yshift=10pt, anchor=north},
+            ylabel style={anchor=south},
             declare function={amp(\x)=1.3*exp(-(\x*\x)/6);}
           ]
-          \draw[very thick, SecondaryColor] (axis cs:-4,1.7) -- (axis cs:-4,2.0) -- (axis cs:4,2.0) -- (axis cs:4,1.7);
+          \draw[very thick, SecondaryColor] (axis cs:-4,1.2) -- (axis cs:-4,1.5) -- (axis cs:4,1.5) -- (axis cs:4,1.2);
           \addplot[ycomb, mark=triangle*, thick, PrimaryColor, samples=5, domain=0:4, mark size=2pt] {amp(x)};
           \addplot[ycomb, mark=triangle*, thick, AccentColor, samples=4, domain=-4:-1, mark size=2pt] {amp(x)};
-          \node[font=\scriptsize] at (axis cs:0,2.1) {integrate one passband};
+          \node[font=\scriptsize] at (axis cs:0,1.8) {integrate one passband};
         \end{axis}
       \end{tikzpicture}
     \end{column}
 
-        \begin{column}{0.57\textwidth}
-            \footnotesize
-            Inside one passband, only the non-overlapping baseband harmonics remain:
-            \begin{align*}
-                x(t)
-                &= \frac{1}{2\pi}\int_{-\omega_s/2}^{\omega_s/2} T X_p(j\omega)e^{j\omega t}\,d\omega \\
-                &= T\sum_{|k|<N/2} c_k e^{jk\omega_0 t}
-                = \sum_{|k|<N/2} a_k e^{jk\omega_0 t}.
-            \end{align*}
-            Thus the ideal LPF perfectly recovers the continuous-time periodic signal whenever Nyquist holds.
+    \begin{column}{0.57\textwidth}
+      \footnotesize
+      Inside one passband, only the non-overlapping baseband harmonics remain:
+      \begin{align*}
+        x(t)
+        &= \frac{1}{2\pi}\int_{-\omega_s/2}^{\omega_s/2} T X_p(j\omega)e^{j\omega t}\,d\omega \\
+        &= T\sum_{|k|<N/2} c_k e^{jk\omega_0 t}
+        = \sum_{|k|<N/2} a_k e^{jk\omega_0 t}.
+      \end{align*}
+      Thus the ideal LPF perfectly recovers the continuous-time periodic signal whenever Nyquist holds.
 
-            Sampling at $t=nT$ and using $T_0=NT$ gives
-            \begin{align*}
-                x[n]=x(nT)
-                &= T\sum_{|k|<N/2} c_k e^{jk\omega_0 nT} \\
-                &= \frac{1}{N}\sum_{|k|<N/2} X[k]e^{j\frac{2\pi}{N}kn}.
-            \end{align*}
+      Sampling at $t=nT$ and using $T_0=NT$ gives
+      \begin{align*}
+        x[n]=x(nT)
+        &= T\sum_{|k|<N/2} c_k e^{jk\omega_0 nT} \\
+        &= \frac{1}{N}\sum_{|k|<N/2} X[k]e^{j\frac{2\pi}{N}kn}.
+      \end{align*}
       Using the periodicity of $X[k]$, we can shift the index set to $k=0,\dots,N-1$:
       \begin{conceptbox}{Inverse DFT}
         \vspace{-0.2cm}

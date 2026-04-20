@@ -335,8 +335,7 @@
           Laplace & z-transform \\
           \midrule
           $H(s)$ & $H(z)$ \\
-          $Y(s)=H(s)X(s)$ & $Y(z)=H(z)X(z)$ \\
-          poles in LHP & poles inside UC \\
+          $Y(s)=H(s)X(s)$ & $Y(z)=H(z)X(z)$
         \end{tabular}
       \end{insightbox}
     \end{column}
@@ -410,7 +409,7 @@
       \begin{align*}
         X(z)
         &= \sum_{n=0}^{\infty} a^n z^{-n}
-        = \sum_{n=0}^{\infty} (az^{-1})^n \\
+        = \sum_{n=0}^{\infty} (az^{-1})^n, \qquad |az^{-1}|<1 \\
         &= \frac{1}{1-az^{-1}}
         = \frac{z}{z-a},
         \qquad |z|>|a|.
@@ -1397,7 +1396,7 @@
 
   \vspace{-0.12cm}
   \begin{itemize}
-    \setlength{\itemsep}{0.08em}
+      \setlength{\itemsep}{0.08em}
     \item \textbf{Example 10.12}
       \[
         X(z)=4z^2+2+3z^{-1}
@@ -1986,7 +1985,7 @@
 
       \begin{itemize}
         \item \textbf{Example 10.22:}
-          the same algebraic $H(z)$ from Example 10.21 is unstable if the ROC is $|z|<2$.
+          the same algebraic $H(z)$ from Example 10.21 is unstable if the ROC is $|z|>2$.
         \item \textbf{Example 10.23:}
           for the causal first-order system
           \[

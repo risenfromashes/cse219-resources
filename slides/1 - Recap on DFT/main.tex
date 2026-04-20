@@ -306,35 +306,24 @@
   \end{conceptbox}
 
 \end{frame}
-\begin{frame}{Why the DFT Works for Periodic Signals}
+\begin{frame}{Recap: The DFT for Periodic Signals}
   \begin{minipage}{0.48\textwidth}
-    \begin{conceptbox}{Periodic-Signal View}
-      \vspace{-0.2cm}
-      \begin{equation*}
-        X(j\omega)=2\pi \sum_{m=-\infty}^{\infty} a_m \delta(\omega-m\omega_0)
-      \end{equation*}
-      \vspace{-0.4cm}
-      \begin{equation*}
-        \omega_k=\frac{k\omega_s}{N}=k\omega_0
-      \end{equation*}
-    \end{conceptbox}
-    \vspace{0.15cm}
     \begin{itemize}
-      \item A continuous-time periodic signal has a \textbf{line spectrum}: only harmonic spikes at integer multiples of $\omega_0$.
-      \item This is the same periodic-recovery viewpoint revisited later in Sampling: if $N=T_0/T_s$, then $\omega_s=N\omega_0$.
-      \item Hence $\omega_k=\frac{k\omega_s}{N}=k\omega_0$, so the DFT bins land \textbf{exactly on the harmonic lines}.
-      \item That is why the DFT isolates the $N$ unique Fourier-series coefficients so cleanly in the periodic case.
+      \item We started with a continuous-time periodic signal $x(t)$.
+      \item Sampling it yielded a \textbf{periodic discrete sequence} $x[n]$ with period $N$.
+      \item Its frequency representation $c_k$ is uniquely defined by exactly $N$ contiguous components.
+      \item Ultimately, the \textbf{DFT} transforms exactly $N$ points of $x[n]$ into $N$ unique frequency coefficients $X[k]$.
+      \item The \textbf{IDFT} perfectly reconstructs those $N$ points in time from these $N$ frequency values.
     \end{itemize}
   \end{minipage}
   \hfill
   \begin{minipage}{0.48\textwidth}
     \begin{center}
       \begin{tikzpicture}[scale=0.9]
-        \node at (0,3.3) {one period of samples};
+        \node at (0,3.3) {$N$ points in Time};
         \draw[->, thick, AccentColor] (1.5,1.25) -- node[above, scale=0.8] {DFT} (3.5,1.25);
         \draw[<-, thick, AccentColor] (1.5,0.75) -- node[below, scale=0.8] {IDFT} (3.5,0.75);
-        \node at (5,3.3) {$N$ unique coeffs};
-        \node[font=\scriptsize, align=center] at (2.5,2.15) {bins land on\\harmonic lines};
+        \node at (5,3.3) {$N$ points in Freq};
 
         \begin{axis}[
             at={(0,-0.5cm)}, anchor=south,
@@ -350,13 +339,13 @@
             at={(5cm,-0.5cm)}, anchor=south,
             width=4cm, height=3.8cm,
             axis lines=middle, axis line style={shorten >=-5pt, shorten <=-5pt, -{Latex}},
-            xmin=-1, xmax=8.5, ymin=-0.5, ymax=8.5,
+            xmin=-1, xmax=16.5, ymin=-0.5, ymax=8.5,
             xtick=\empty, ytick=\empty, clip=false
           ]
-          \addplot[ycomb, mark=triangle*, PrimaryColor, thick, mark size=2pt] coordinates {
+          \addplot+[discrete, spectrum, mark=*, AccentColor, thick, mark size=1.5pt] coordinates {
             (0,0.8) (1,2.0) (2,4.0) (3,6.8) (4,7.6) (5,6.8) (6,4.0) (7,2.0)
+            (8,0.8) (9,2.0) (10,4.0) (11,6.8) (12,7.6) (13,6.8) (14,4.0) (15,2.0)
           };
-          \node[font=\scriptsize] at (axis cs:4.2,7.9) {$X[k]\propto a_k$};
         \end{axis}
       \end{tikzpicture}
     \end{center}
@@ -366,11 +355,9 @@
 \begin{frame}{What about Aperiodic Signals?}
   But does DFT only apply to periodic signals? What if the signal is aperiodic?
   \begin{itemize}
-      \setlength{\itemsep}{0.2em}
-    \item Now switch to the practical \textbf{finite-capture} setting used in Sampling's ``Connection to the DFT'' section: an aperiodic signal $x(t)$ observed only over a finite interval $T_0$.
+    \item Let's consider an aperiodic signal $x(t)$ restricted to a finite interval $T_0$.
     \item Uniformly sampling this yields a finite-length sequence $x[n]$ that is nonzero only for $0 \le n \le N-1$.
-    \item Unlike the periodic case, the associated spectrum is \textbf{continuous} rather than isolated Fourier-series spikes.
-    \item Using the pulse train sampling method with sampling period $T$, we can represent the sampled signal as:
+    \item Using the pulse train sampling method, we can represent the sampled signal as:
       \begin{equation*}
         x_p(t) = x(t)p(t) = \sum_{n=-\infty}^{\infty} x[n] \delta(t - nT)  = \sum_{n=0}^{N-1} x[n] \delta(t - nT)
       \end{equation*}
@@ -429,24 +416,23 @@
 \end{frame}
 
 \begin{frame}{From the Sampled Signal to the DTFT}
-  First take the CTFT of the sampled impulse train:
-  \vspace{0.05cm}
-  \begin{conceptbox}{CTFT of the sampled signal}
-    \vspace{-0.2cm}
-    \begin{equation*}
-      X_p(j\omega)=\sum_{n=-\infty}^{\infty} x[n]e^{-j\omega nT}
-    \end{equation*}
-  \end{conceptbox}
-  \vspace{0.12cm}
+
   \begin{itemize}
       \setlength{\itemsep}{0.2em}
-    \item This formula is written in the physical frequency variable $\omega$ and is exactly the repeated sampled-spectrum picture we will revisit in Sampling.
-    \item Now compress the frequency axis by the sampling period and reuse the symbol, i.e. apply the mapping $\omega T \mapsto \omega$.
-    \item Under that relabeling, the same spectrum becomes the \textbf{Discrete-Time Fourier Transform (DTFT)}:
+    \item   First take the CTFT of the sampled impulse train:
+      \vspace{0.05cm}
       \begin{equation*}
-        X(e^{j\omega}) \triangleq X_p(j\omega)\big|_{\omega T \mapsto \omega}
-        = \sum_{n=-\infty}^{\infty} x[n]e^{-j\omega n}.
+        X_p(j\omega)=\sum_{n=-\infty}^{\infty} x[n]e^{-j\omega nT}
       \end{equation*}
+    \item Now compress the frequency axis by the sampling period, i.e. apply the mapping $\omega T \mapsto \omega$.
+    \item Under that relabeling, the same spectrum becomes the \textbf{Discrete-Time Fourier Transform (DTFT)}:
+      \begin{conceptbox}{Discrete-Time Fourier Transform (DTFT)}
+        \begin{equation*}
+          X(e^{j\omega}) \triangleq X_p(j\omega)\big|_{\omega T \mapsto \omega}
+          = \sum_{n=-\infty}^{\infty} x[n]e^{-j\omega n}.
+        \end{equation*}
+      \end{conceptbox}
+    \item Hence, the DTFT is the Fourier transform of the sampled signal, with a compressed frequency axis.
     \item For our length-$N$ capture,
       \begin{equation*}
         X(e^{j\omega})=\sum_{n=0}^{N-1} x[n]e^{-j\omega n}.
@@ -545,11 +531,11 @@
   \begin{minipage}{0.5\textwidth}
     \begin{itemize}
         \setlength{\itemsep}{0.2em}
-      \item In Sampling's ``Connection to the DFT'' section we showed that the DFT simply samples the CTFT of the impulse train:
+      \item Recall the DFT definition:
         \begin{equation*}
-          X[k] = X_p\left(j\frac{k\omega_s}{N}\right), \qquad \omega_s=\frac{2\pi}{T}.
+          X[k] = \sum_{n=0}^{N-1} x[n]\,e^{-j\frac{2\pi}{N}kn}.
         \end{equation*}
-      \item Under the same mapping $\omega T \mapsto \omega$, this becomes the normalized DTFT statement:
+      \item We see that the DFT evaluates $X(e^{j\omega})$, the DTFT, at \textbf{discrete frequencies} $\omega = \frac{2\pi}{N}k$:
         \begin{equation*}
           X[k] = X(e^{j\omega})\Big|_{\omega=\frac{2\pi}{N}k}.
         \end{equation*}
