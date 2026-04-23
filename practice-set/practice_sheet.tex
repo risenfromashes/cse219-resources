@@ -80,8 +80,8 @@
   colbacktitle=PrimaryColor,
   title={#1},
   fontupper=\small,
-  before skip=6pt,
-  after skip=6pt,
+  before skip=1cm,
+  after skip=1cm,
   segmentation style={draw=LightGray, line width=0.55pt}
 }
 
@@ -114,6 +114,21 @@
 \tikzset{
   fftdot/.style={circle, fill=black, inner sep=1.5pt},
   fftvalue/.style={font=\tiny, fill=white, inner sep=1pt, text=PrimaryColor},
+}
+
+\newcommand{\ZTSequencePlot}[6]{%
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=\textwidth, height=2.95cm,
+        slideaxis,
+        xmin=#1, xmax=#2, ymin=#3, ymax=#4,
+        xtick distance=1, ytick=\empty,
+        xlabel={$n$}, ylabel={$x[n]$},
+        xlabel style={anchor=west}, ylabel style={anchor=south}
+      ]
+      \addplot+[discrete, color=PrimaryColor, mark options={fill=white, draw=PrimaryColor}, samples at={#5}] {#6};
+    \end{axis}
+  \end{tikzpicture}%
 }
 
 \newcommand{\FourPointButterflyFigure}{%
@@ -231,7 +246,8 @@
 
 \begin{center}
   {\LARGE \textbf{CSE 219 Practice Sheet}}\\[0.24em]
-  {\large FFT, Sampling, Laplace Transform, and z-Transform}
+  {\large FFT, Sampling, Laplace Transform, and z-Transform}\\[1em]
+  {\normalfont Ashrafur Rahman\\ Lecturer, CSE, BUET}
 \end{center}
 
 \vspace{2cm}
@@ -239,6 +255,7 @@
 \tableofcontents
 
 \vspace{5cm}
+\newpage
 
 \section{Radix-2 DIT Cooley-Tukey FFT}
 
@@ -284,8 +301,6 @@
     \end{tikzpicture}
   \end{center}
 \end{examplebox}
-
-\newpage
 
 \begin{examplebox}{Problem 1.2}
   \Prompt{Compute the 4-point DIT FFT of \(x[n]=[2,1,-3,4]\) using radix-2 butterflies.}
@@ -384,8 +399,10 @@
   \end{center}
 \end{examplebox}
 
+\newpage
+
 \begin{examplebox}{Problem 1.3}
-  \Prompt{Compute the 4-point FFT of \(x[n]=[1,2,3,4]\) using two 2-point butterflies rather than the direct DFT sum.}
+  \Prompt{Compute the 4-point FFT of \(x[n]=[1,2,3,4]\) using two 2-point butterflies.}
 
   \medskip
   \SketchLabel{}
@@ -470,7 +487,7 @@
 \end{examplebox}
 
 \begin{examplebox}{Problem 1.4}
-  \Prompt{Compute the 8-point FFT of \(x[n]=[1,2,0,-1,3,0,2,1]\) using the full radix-2 DIT butterfly. Show the stage values, not only the final merge.}
+  \Prompt{Compute the 8-point FFT of \(x[n]=[1,2,0,-1,3,0,2,1]\) using the full radix-2 DIT butterfly.}
 
   \medskip
   \SketchLabel{}
@@ -491,25 +508,25 @@
   \[
     \begin{aligned}
       X[0]&=6+W_8^0(2)=8,\\
-      X[1]&=(-2+2j)+W_8^1(2)=(-2+2j)+\sqrt2(1-j)= -2+2\sqrt2+(2-\sqrt2)j,\\
+      X[1]&=(-2+2j)+W_8^1(2+2j)=(-2+2j)+2\sqrt2= -2+2\sqrt2+2j,\\
       X[2]&=2+W_8^2(2)=2-2j,\\
-      X[3]&=(-2-2j)+W_8^3(2)= -2-2\sqrt2-(2+\sqrt2)j,
+      X[3]&=(-2-2j)+W_8^3(2-2j)= -2-2\sqrt2-2j,
     \end{aligned}
   \]
   and
   \[
     \begin{aligned}
       X[4]&=6-W_8^0(2)=4,\\
-      X[5]&=(-2+2j)-W_8^1(2)= -2-2\sqrt2+(2+\sqrt2)j,\\
+      X[5]&=(-2+2j)-W_8^1(2+2j)= -2-2\sqrt2+2j,\\
       X[6]&=2-W_8^2(2)=2+2j,\\
-      X[7]&=(-2-2j)-W_8^3(2)= -2+2\sqrt2+(\sqrt2-2)j.
+      X[7]&=(-2-2j)-W_8^3(2-2j)= -2+2\sqrt2-2j.
     \end{aligned}
   \]
   So the final 8-point FFT is
   \[
     \begin{aligned}
-      X[k]=[&8,\ -2+2\sqrt2+(2-\sqrt2)j,\ 2-2j,\ -2-2\sqrt2-(2+\sqrt2)j,\\
-      &4,\ -2-2\sqrt2+(2+\sqrt2)j,\ 2+2j,\ -2+2\sqrt2+(\sqrt2-2)j ].
+      X[k]=[&8,\ -2+2\sqrt2+2j,\ 2-2j,\ -2-2\sqrt2-2j,\\
+      &4,\ -2-2\sqrt2+2j,\ 2+2j,\ -2+2\sqrt2-2j ].
     \end{aligned}
   \]
 
@@ -691,6 +708,8 @@
   \end{center}
 \end{examplebox}
 
+\newpage
+
 \begin{examplebox}{Problem 2.2}
   \Prompt{Use a \(2\times 4\) Bailey factorization to compute the 8-point DFT of \(x[n]=[1,3,-1,2,0,4,2,1]\).}
 
@@ -755,7 +774,7 @@
   \end{center}
 \end{examplebox}
 
-\begin{examplebox}{Problem 2.4}
+\begin{examplebox}{Problem 2.3}
   \Prompt{A 16-point sequence is \(x[n]=[1,0,0,0,\,2,0,0,0,\,-1,0,0,0,\,3,0,0,0]\). Use the \(4\times 4\) formulation to reduce the work.}
 
   \medskip
@@ -809,7 +828,7 @@
         \(
           \begin{bmatrix}1&2&-1&3\\0&0&0&0\\0&0&0&0\\0&0&0&0
       \end{bmatrix}\)};
-      \node[draw, rounded corners, fill=SecondaryColor!10, align=center, text width=3.0cm, right=of a] (b) {after row DFTs\\[0.2em]
+      \node[draw, rounded corners, fill=SecondaryColor!10, align=center, text width=3.2cm, right=of a] (b) {after row DFTs\\[0.2em]
         \(
           \begin{bmatrix}5&2+j&-5&2-j\\0&0&0&0\\0&0&0&0\\0&0&0&0
       \end{bmatrix}\)};
@@ -938,24 +957,24 @@
     \end{aligned}
   \]
 
-  \begin{center}
-    \begin{tikzpicture}[>=Latex, font=\scriptsize]
-      \draw[PrimaryColor, thick] (0,0.35) rectangle (2.4,1.25);
-      \node at (1.2,0.8) {\(x[n]\)};
-      \draw[->, thick, SecondaryColor] (2.55,0.8)--(3.7,0.8);
-      \draw[PrimaryColor, thick] (3.9,0.35) rectangle (6.3,1.25);
-      \node at (5.1,0.8) {\(a[n]=x[n]W_6^{n^2}\)};
-      \draw[->, thick, SecondaryColor] (6.45,0.8)--(7.6,0.8);
-      \draw[PrimaryColor, thick] (7.8,0.35) rectangle (10.0,1.25);
-      \node at (8.9,0.8) {\(c[k]=a\ast b\)};
-      \draw[PrimaryColor, thick] (7.8,-0.95) rectangle (10.0,-0.05);
-      \node at (8.9,-0.5) {\(b[m]=W_6^{-m^2}\)};
-      \draw[->, thick, SecondaryColor] (8.9,-0.05)--(8.9,0.35);
-      \draw[->, thick, SecondaryColor] (10.15,0.8)--(11.35,0.8);
-      \draw[PrimaryColor, thick] (11.55,0.35) rectangle (13.85,1.25);
-      \node at (12.7,0.8) {\(X[k]=W_6^{k^2}c[k]\)};
-    \end{tikzpicture}
-  \end{center}
+  % \begin{center}
+  %   \begin{tikzpicture}[>=Latex, font=\scriptsize]
+  %     \draw[PrimaryColor, thick] (0,0.35) rectangle (2.4,1.25);
+  %     \node at (1.2,0.8) {\(x[n]\)};
+  %     \draw[->, thick, SecondaryColor] (2.55,0.8)--(3.7,0.8);
+  %     \draw[PrimaryColor, thick] (3.9,0.35) rectangle (6.3,1.25);
+  %     \node at (5.1,0.8) {\(a[n]=x[n]W_6^{n^2}\)};
+  %     \draw[->, thick, SecondaryColor] (6.45,0.8)--(7.6,0.8);
+  %     \draw[PrimaryColor, thick] (7.8,0.35) rectangle (10.0,1.25);
+  %     \node at (8.9,0.8) {\(c[k]=a\ast b\)};
+  %     \draw[PrimaryColor, thick] (7.8,-0.95) rectangle (10.0,-0.05);
+  %     \node at (8.9,-0.5) {\(b[m]=W_6^{-m^2}\)};
+  %     \draw[->, thick, SecondaryColor] (8.9,-0.05)--(8.9,0.35);
+  %     \draw[->, thick, SecondaryColor] (10.15,0.8)--(11.35,0.8);
+  %     \draw[PrimaryColor, thick] (11.55,0.35) rectangle (13.85,1.25);
+  %     \node at (12.7,0.8) {\(X[k]=W_6^{k^2}c[k]\)};
+  %   \end{tikzpicture}
+  % \end{center}
 \end{examplebox}
 
 \begin{examplebox}{Problem 3.3}
@@ -1021,7 +1040,7 @@
 \section{Application of FFT: Fast Convolution}
 
 \begin{examplebox}{Problem 4.1}
-  \Prompt{Compute the linear convolution of \(x[n]=[1,2]\) and \(h[n]=[1,-1]\) using a 4-point FFT, but carry out the DFTs as radix-2 combinations of 2-point butterflies.}
+  \Prompt{Compute the linear convolution of \(x[n]=[1,2]\) and \(h[n]=[1,-1]\) using a 4-point FFT.}
 
   \medskip
   \SketchLabel{}
@@ -1070,7 +1089,7 @@
 \end{examplebox}
 
 \begin{examplebox}{Problem 4.2}
-  \Prompt{Compute the linear convolution of \(x[n]=[1,-1,2]\) and \(h[n]=[2,1]\) using a 4-point radix-2 FFT and an explicit inverse FFT.}
+  \Prompt{Compute the linear convolution of \(x[n]=[1,-1,2]\) and \(h[n]=[2,1]\) using a 4-point radix-2 FFT.}
 
   \medskip
   \SketchLabel{}
@@ -1113,6 +1132,7 @@
     y[n]=\frac14[\,8,\ -4,\ 12,\ 8\,]=[\,2,\ -1,\ 3,\ 2\,].
   \]
 \end{examplebox}
+\newpage
 
 \begin{examplebox}{Problem 4.3}
   \Prompt{Compute the linear convolution of \(x[n]=[1,0,1]\) and \(h[n]=[1,-1,2]\). Use the smallest radix-2 FFT size and show the butterfly-based DFT steps.}
@@ -1200,6 +1220,7 @@
     y[n]=[\,1,\ -1,\ 3,\ -1,\ 2\,].
   \]
 \end{examplebox}
+\newpage
 
 \begin{examplebox}{Problem 4.4}
   \Prompt{Repeat Problem 4.3 incorrectly with a 4-point FFT and show the circular-convolution wrap-around.}
@@ -1279,6 +1300,8 @@
   \end{center}
 \end{examplebox}
 
+\section{Nyquist-Shannon Sampling Theorem}
+
 \begin{examplebox}{Problem 5.1}
   \Prompt{State the Nyquist-Shannon sampling theorem in both angular-frequency and ordinary-frequency form.}
 
@@ -1317,6 +1340,8 @@
     \end{tikzpicture}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \begin{examplebox}{Problem 5.2}
   \Prompt{Derive the condition \(\omega_s>2\omega_M\) by comparing adjacent spectral copies of a bandlimited spectrum.}
@@ -1446,6 +1471,8 @@
   \end{center}
 \end{examplebox}
 
+\newpage
+
 \section{Ideal Reconstruction, Zero-Order Hold, Linear Interpolation}
 
 \begin{examplebox}{Problem 6.1}
@@ -1551,6 +1578,8 @@
   \end{center}
 \end{examplebox}
 
+\newpage
+
 \begin{examplebox}{Problem 6.3}
   \Prompt{Derive the impulse response and frequency response of linear interpolation.}
 
@@ -1614,7 +1643,7 @@
     \qquad
     \frac{|H_1|}{T}=\sinc^2\!\left(\frac14\right)\approx0.811,
   \]
-  while the ideal filter has magnitude \(1\).
+  while the ideal filter has normalized magnitude \(\frac{|H_{\text{ideal}}|}{T}=1\) (equivalently, \(|H_{\text{ideal}}|=T\)).
 
   \begin{center}
     \begin{tikzpicture}
@@ -1650,7 +1679,7 @@
 
   \medskip
   \SketchLabel{}
-  Ideal reconstruction is perfect in theory but unrealizable in real time. ZOH is extremely easy to implement, but it introduces staircase distortion. Linear interpolation is smoother than ZOH and gives better high-frequency behavior, but it is still not ideal.
+  Ideal reconstruction is perfect in theory but unrealizable in real time. ZOH is extremely easy to implement, but it introduces staircase distortion and sinc droop. Linear interpolation is smoother than ZOH and gives better high-frequency behavior, but it is still not ideal.
 
   \begin{center}
     \begin{tikzpicture}[scale=0.9, font=\scriptsize]
@@ -1670,6 +1699,8 @@
     \end{tikzpicture}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \section{Laplace Transform: Definition, Properties, ROC, Poles and Zeros}
 
@@ -1936,7 +1967,7 @@
   \end{center}
 \end{examplebox}
 
-\section{Inverse Laplace Transform}
+\vfill
 
 \begin{conceptbox}{Residue Method for Partial Fractions}
   For rational transforms, partial-fraction coefficients can be obtained directly using residue formulas (same idea you saw from Laurent-series coefficients; no extra complex-analysis machinery needed here).
@@ -1970,8 +2001,12 @@
     A_k=\frac{1}{(m-k)!}\left.\frac{d^{\,m-k}}{ds^{\,m-k}}\Big((s-p)^mF(s)\Big)\right|_{s=p}.
   \]
 
-  The same formulas work in the \(z\)-transform section by setting \(r=z^{-1}\), turning factors into \((1-ar)\).
+  These derivatives can be easily computed using a calculator. The same formulas work in the \(z\)-transform section by setting \(r=z^{-1}\), turning factors into \((1-ar)\).
 \end{conceptbox}
+
+\newpage
+
+\section{Inverse Laplace Transform}
 
 \begin{examplebox}{Problem 8.1}
   \Prompt{Invert \(X(s)=\dfrac{3s+7}{(s+1)(s+2)}\) with ROC \(\text{Re}\{s\}>-1\).}
@@ -2014,29 +2049,99 @@
 
   \medskip
   \SketchLabel{}
-  Complete the square: \(s^2+2s+5=(s+1)^2+4\). Rewrite the numerator:
+  If one remembers the standard pair for \(e^{at}\sin(bt)\), this inversion becomes much shorter. Here we derive it directly from the complex poles instead of assuming that pair.
+  First factor the denominator over the complex numbers:
   \[
-    \frac{2s+3}{(s+1)^2+4}=\frac{2(s+1)+1}{(s+1)^2+4}
-    =\frac{2(s+1)}{(s+1)^2+4}+\frac{1}{2}\cdot\frac{2}{(s+1)^2+4}.
+    s^2+2s+5=(s+1)^2+4=(s+1-2j)(s+1+2j).
   \]
-  Using the standard pairs with the \(s\)-domain shift property,
+  So write
+  \[
+    X(s)=\frac{A}{s+1-2j}+\frac{B}{s+1+2j},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-1.
+  \]
+  Using residues at the two simple poles,
+  \[
+    A=\lim_{s\to -1+2j}(s+1-2j)X(s)
+    =\frac{2(-1+2j)+3}{(-1+2j)+1+2j}
+    =\frac{1+4j}{4j}
+    =1-\frac{j}{4},
+  \]
+  \[
+    B=\lim_{s\to -1-2j}(s+1+2j)X(s)
+    =\frac{2(-1-2j)+3}{(-1-2j)+1-2j}
+    =\frac{1-4j}{-4j}
+    =1+\frac{j}{4}.
+  \]
+  Therefore
+  \[
+    X(s)=\frac{1-\frac{j}{4}}{s+1-2j}+\frac{1+\frac{j}{4}}{s+1+2j},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-1.
+  \]
+  Since the ROC is to the right of both poles, both terms are right-sided:
+  \[
+    \Linvpair{\frac{1}{s+1-2j}}{e^{(-1+2j)t}u(t)},
+    \qquad
+    \Linvpair{\frac{1}{s+1+2j}}{e^{(-1-2j)t}u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-1.
+  \]
+  Hence
+  \[
+    x(t)=\left(1-\frac{j}{4}\right)e^{(-1+2j)t}u(t)
+    +\left(1+\frac{j}{4}\right)e^{(-1-2j)t}u(t).
+  \]
+  Factor out \(e^{-t}u(t)\):
+  \[
+    x(t)=e^{-t}\left[\left(1-\frac{j}{4}\right)e^{j2t}
+    +\left(1+\frac{j}{4}\right)e^{-j2t}\right]u(t).
+  \]
+  Now combine the conjugate terms:
+  \[
+    \left(1-\frac{j}{4}\right)e^{j2t}
+    +\left(1+\frac{j}{4}\right)e^{-j2t}
+    =(e^{j2t}+e^{-j2t})+\frac{j}{4}(e^{-j2t}-e^{j2t}).
+  \]
+  Using Euler's identities
+  \[
+    e^{j2t}+e^{-j2t}=2\cos 2t,
+    \qquad
+    e^{-j2t}-e^{j2t}=-2j\sin 2t,
+  \]
+  we get
   \[
     x(t)=\left(2e^{-t}\cos 2t+\tfrac{1}{2}e^{-t}\sin 2t\right)u(t).
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-1.0, ymax=2.2,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$x(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[signal, domain=0:5.2, samples=220] {exp(-x)*(2*cos(deg(2*x))+0.5*sin(deg(2*x)))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.68]
+        \fill[PrimaryColor, fill opacity=0.12] (-1,-2.3) rectangle (2.0,2.3);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.0,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-2.5)--(0,2.5) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (-1,-2.4)--(-1,2.4);
+        \draw[thick] (-1.1,1.88)--(-0.9,1.68); \draw[thick] (-1.1,1.68)--(-0.9,1.88);
+        \draw[thick] (-1.1,-1.68)--(-0.9,-1.88); \draw[thick] (-1.1,-1.88)--(-0.9,-1.68);
+        \node[DarkGray] at (-0.1,2.1) {\scriptsize $-1+2j$};
+        \node[DarkGray] at (-0.1,-2.1) {\scriptsize $-1-2j$};
+        \node[DarkGray] at (-1,-2.7) {\scriptsize boundary $\sigma=-1$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.8cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-1.0, ymax=2.2,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[signal, domain=0:5.2, samples=220] {exp(-x)*(2*cos(deg(2*x))+0.5*sin(deg(2*x)))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2102,29 +2207,59 @@
 
   \medskip
   \SketchLabel{}
+  One can also decompose this into repeated complex poles at \(s=\pm 2j\) and invert by partial fractions, but recognizing the sine pair followed by the derivative method is more direct.
   \[
-    \Linvpair{\frac{2}{s^2+4}}{\sin(2t)u(t)}
-    \quad \Longrightarrow \quad
-    \Linvpair{\frac{4s}{(s^2+4)^2}}{t\sin(2t)u(t)}.
+    \Linvpair{\frac{2}{s^2+4}}{\sin(2t)u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Using \(\Linvpair{-\dfrac{dX}{ds}}{t\,x(t)}\),
+  \[
+    -\frac{d}{ds}\!\left(\frac{2}{s^2+4}\right)=\frac{4s}{(s^2+4)^2},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0,
+  \]
+  so
+  \[
+    \Linvpair{\frac{4s}{(s^2+4)^2}}{t\sin(2t)u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
   \]
   Therefore
   \[
-    x(t)=\frac14\,t\sin(2t)u(t).
+    x(t)=\frac14\,t\sin(2t)u(t),
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-0.55, ymax=0.55,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$x(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[signal, domain=0:5.2, samples=220] {0.25*x*sin(deg(2*x))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.68]
+        \fill[PrimaryColor, fill opacity=0.12] (0.03,-2.3) rectangle (2.0,2.3);
+        \draw[-{Latex[length=1.6mm]}, thick] (-2.3,0)--(2.3,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-2.5)--(0,2.5) node[above] {\scriptsize$j\omega$};
+        \draw[thick] (-0.1,1.88)--(0.1,1.68); \draw[thick] (-0.1,1.68)--(0.1,1.88);
+        \draw[thick] (-0.1,-1.68)--(0.1,-1.88); \draw[thick] (-0.1,-1.88)--(0.1,-1.68);
+        \node[DarkGray] at (0.55,2.05) {\scriptsize $2j$};
+        \node[DarkGray] at (0.7,-2.05) {\scriptsize $-2j$};
+        \node[DarkGray] at (0.95,-2.7) {\scriptsize ROC: $\sigma>0$};
+        \node[DarkGray] at (0.95,-1.85) {\scriptsize repeated poles};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.8cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-0.55, ymax=0.55,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[signal, domain=0:5.2, samples=220] {0.25*x*sin(deg(2*x))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2133,39 +2268,85 @@
 
   \medskip
   \SketchLabel{}
-  First invert without the delay:
+  First ignore the delay factor and define
+  \[
+    Y(s)=\frac{1}{s(s+2)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Partial fractions give
   \[
     \frac{1}{s(s+2)}=\frac{A}{s}+\frac{B}{s+2},
-    \quad
-    A=\lim_{s\to0}s\frac{1}{s(s+2)}=\frac12,
-    \quad
-    B=\lim_{s\to-2}(s+2)\frac{1}{s(s+2)}=-\frac12.
+    \qquad
+    A=\lim_{s\to0}sY(s)=\frac12,
+    \qquad
+    B=\lim_{s\to-2}(s+2)Y(s)=-\frac12,
   \]
-  Hence
+  so
   \[
-    \frac{1}{s(s+2)}=\frac{1/2}{s}-\frac{1/2}{s+2}
-    \quad \Longrightarrow \quad
-    y(t)=\tfrac{1}{2}\bigl(1-e^{-2t}\bigr)u(t).
+    Y(s)=\frac{1/2}{s}-\frac{1/2}{s+2},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
   \]
-  The factor \(e^{-s}\) shifts the result by one unit:
+  Now invert term by term:
   \[
-    x(t)=\tfrac{1}{2}\Bigl(1-e^{-2(t-1)}\Bigr)u(t-1).
+    \Linvpair{\frac{1/2}{s}}{\frac12\,u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0,
+  \]
+  \[
+    \Linvpair{\frac{1/2}{s+2}}{\frac12 e^{-2t}u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
+  \]
+  Since the given ROC for the sum is \(\text{Re}\{s\}>0\), the combined signal is right-sided with
+  \[
+    \Linvpair{Y(s)}{\tfrac12\bigl(1-e^{-2t}\bigr)u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  The factor \(e^{-s}\) produces a delay of one unit and does not change the ROC:
+  \[
+    \Linvpair{e^{-s}Y(s)}{y(t-1)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Therefore
+  \[
+    x(t)=\tfrac12\Bigl(1-e^{-2(t-1)}\Bigr)u(t-1),
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-0.05, ymax=0.57,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$x(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.57)};
-        \addplot[AccentColor, thick, domain=1:5.2, samples=180] {0.5*(1-exp(-2*(x-1)))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.68]
+        \fill[PrimaryColor, fill opacity=0.10] (0.03,-1.7) rectangle (2.0,1.7);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.0,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-1.9)--(0,1.9) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (0,-1.8)--(0,1.8);
+        \draw[thick] (-2.1,0.12)--(-1.9,-0.12); \draw[thick] (-2.1,-0.12)--(-1.9,0.12);
+        \draw[thick] (-0.12,0.12)--(0.12,-0.12); \draw[thick] (-0.12,-0.12)--(0.12,0.12);
+        \node[DarkGray] at (-2,-0.36) {\scriptsize $-2$};
+        \node[DarkGray] at (0.28,-0.36) {\scriptsize $0$};
+        \node[DarkGray] at (1.0,-2.05) {\scriptsize ROC: $\sigma>0$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.9cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-0.05, ymax=0.57,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.57)};
+          \addplot[AccentColor, thick, domain=1:5.2, samples=180] {0.5*(1-exp(-2*(x-1)))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2174,37 +2355,79 @@
 
   \medskip
   \SketchLabel{}
-  Write \(X(s)=\dfrac{Y(s)}{s}\) where \(Y(s)=\dfrac{2}{s^2+4}\). Since \(\Linvpair{Y(s)}{\sin(2t)u(t)}\), the time-integration property gives
+  Define
   \[
-    x(t)=\int_0^{t}\sin(2\tau)\,d\tau\cdot u(t)
-    =\left[-\frac{\cos(2\tau)}{2}\right]_0^{t}u(t)
-    =\frac{1}{2}\bigl(1-\cos(2t)\bigr)u(t).
-  \]
-  \emph{Verification via PFE:}
-  \[
-    \frac{2}{s(s^2+4)}=\frac{A}{s}+\frac{Bs+C}{s^2+4},
+    Y(s)=\frac{2}{s^2+4},
     \qquad
-    A=\lim_{s\to0}s\frac{2}{s(s^2+4)}=\frac12.
+    \ROC:\ \text{Re}\{s\}>0.
   \]
-  Since the numerator of the remaining term is odd/even matched, \(C=0\). Matching \(s\)-coefficients gives \(B=-\frac12\), so
+  Then
   \[
-    \frac{2}{s(s^2+4)}=\frac{1/2}{s}-\frac{s/2}{s^2+4},
+    X(s)=\frac{Y(s)}{s},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
   \]
-  which leads to the same \(x(t)\).
+  Now use the standard sine pair directly:
+  \[
+    \Lpair{\sin(2t)u(t)}{\frac{2}{s^2+4}},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Therefore
+  \[
+    \Linvpair{Y(s)}{\sin(2t)u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Now use the integration property:
+  \[
+    \Linvpair{\frac{Y(s)}{s}}{\int_{-\infty}^{t} y(\tau)\,d\tau},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
+  Since \(y(\tau)=\sin(2\tau)u(\tau)\) is right-sided,
+  \[
+    x(t)=\int_{-\infty}^{t}\sin(2\tau)u(\tau)\,d\tau
+    =\int_{0}^{t}\sin(2\tau)\,d\tau \, u(t).
+  \]
+  Therefore
+  \[
+    x(t)=\left[-\frac{\cos(2\tau)}{2}\right]_{\tau=0}^{\tau=t}u(t)
+    =\frac12\bigl(1-\cos(2t)\bigr)u(t),
+    \qquad
+    \ROC:\ \text{Re}\{s\}>0.
+  \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-0.05, ymax=1.1,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$x(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[signal, domain=0:5.2, samples=220] {0.5*(1-cos(deg(2*x)))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.68]
+        \fill[PrimaryColor, fill opacity=0.10] (0.03,-2.3) rectangle (2.0,2.3);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.0,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-2.5)--(0,2.5) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (0,-2.4)--(0,2.4);
+        \draw[thick] (-0.12,0.12)--(0.12,-0.12); \draw[thick] (-0.12,-0.12)--(0.12,0.12);
+        \draw[thick] (-0.12,1.88)--(0.12,1.68); \draw[thick] (-0.12,1.68)--(0.12,1.88);
+        \draw[thick] (-0.12,-1.68)--(0.12,-1.88); \draw[thick] (-0.12,-1.88)--(0.12,-1.68);
+        \node[DarkGray] at (0.34,-0.32) {\scriptsize $0$};
+        \node[DarkGray] at (0.62,2.08) {\scriptsize $2j$};
+        \node[DarkGray] at (0.72,-2.08) {\scriptsize $-2j$};
+        \node[DarkGray] at (1.0,-2.72) {\scriptsize ROC: $\sigma>0$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.9cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-0.05, ymax=1.1,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[signal, domain=0:5.2, samples=220] {0.5*(1-cos(deg(2*x)))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2213,37 +2436,85 @@
 
   \medskip
   \SketchLabel{}
-  The fraction is \emph{improper} (numerator degree \(\geq\) denominator degree). Perform polynomial long division first:
+  The fraction is improper, so divide first:
   \[
-    \frac{s}{s+2}=1-\frac{2}{s+2}.
+    \frac{s}{s+2}=1-\frac{2}{s+2},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
   \]
-  Now \(\LT^{-1}\{1\}=\delta(t)\) and \(\LT^{-1}\!\left\{\frac{2}{s+2}\right\}=2e^{-2t}u(t)\), so
+  The constant term corresponds to an impulse:
+  \[
+    \Linvpair{1}{\delta(t)},
+    \qquad
+    \ROC:\ \text{entire } s\text{-plane}.
+  \]
+  For the proper term,
+  \[
+    \Linvpair{\frac{2}{s+2}}{2e^{-2t}u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
+  \]
+  Therefore
   \[
     x(t)=\delta(t)-2e^{-2t}u(t).
   \]
-  This is the derivative of \(e^{-2t}u(t)\): applying the differentiation property directly,
+  The impulse term does not restrict the ROC, so the overall ROC is still
   \[
-    s\cdot\frac{1}{s+2} = s\cdot\LT\bigl\{e^{-2t}u(t)\bigr\}
-    \xrightarrow{\LT^{-1}} \frac{d}{dt}\bigl[e^{-2t}u(t)\bigr]=\delta(t)-2e^{-2t}u(t). \checkmark
+    \ROC:\ \text{Re}\{s\}>-2.
+  \]
+  As a check, one can also write
+  \[
+    \frac{s}{s+2}=s\cdot\frac{1}{s+2},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2,
+  \]
+  and then use
+  \[
+    \Linvpair{\frac{1}{s+2}}{e^{-2t}u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2,
+  \]
+  so
+  \[
+    \Linvpair{s\cdot\frac{1}{s+2}}{\frac{d}{dt}\bigl[e^{-2t}u(t)\bigr]}
+    =\delta(t)-2e^{-2t}u(t),
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=3.2cm,
-          slideaxis,
-          xmin=-0.4, xmax=3.2, ymin=-2.2, ymax=0.3,
-          xtick={0,1,2,3}, ytick=\empty,
-          xlabel={$t$}, ylabel={$x(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[AccentColor, thick, domain=0:3.2, samples=180] {-2*exp(-2*x)};
-        \draw[-{Latex[length=2mm]}, thick, AccentColor] (axis cs:0,-2.0) -- (axis cs:0,0.2)
-        node[above, black, font=\scriptsize] {$\delta(t)$};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.68]
+        \fill[PrimaryColor, fill opacity=0.10] (-2.0,-1.7) rectangle (2.0,1.7);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.0,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-1.9)--(0,1.9) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (-2,-1.8)--(-2,1.8);
+        \draw[thick] (-2.1,0.12)--(-1.9,-0.12); \draw[thick] (-2.1,-0.12)--(-1.9,0.12);
+        \node[DarkGray] at (-2,-0.36) {\scriptsize $-2$};
+        \node[DarkGray] at (0.2,-2.05) {\scriptsize ROC: $\sigma>-2$};
+        \node[DarkGray, align=center] at (-3.2,1.45) {\scriptsize $\delta(t)$ term\\[-1pt]\scriptsize adds no pole};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=3.2cm,
+            slideaxis,
+            xmin=-0.45, xmax=3.2, ymin=-2.2, ymax=0.3,
+            xtick={0,1,2,3}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[AccentColor, thick, domain=0:3.2, samples=180] {-2*exp(-2*x)};
+          \draw[-{Latex[length=2mm]}, ultra thick, AccentColor] (axis cs:0,-2.0) -- (axis cs:0,0.2);
+          \node[font=\scriptsize, anchor=west] at (axis cs:0.1,0.18) {$\delta(t)$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \section{Applications of Laplace Transform}
 
@@ -2350,16 +2621,84 @@
 
   \medskip
   \SketchLabel{}
-  This corresponds to \(x(t)=e^{-2t}\bigl(u(t)-u(t-3)\bigr)\), which is finite-duration. Its ROC is the entire \(s\)-plane, so the \(j\omega\)-axis is included and the Fourier transform exists. The apparent pole at \(-2\) is removable.
+  First rewrite the transform so the delay is visible:
+  \[
+    X(s)=\frac{1}{s+2}-\frac{e^{-3(s+2)}}{s+2}
+    =\frac{1}{s+2}-e^{-6}\frac{e^{-3s}}{s+2}.
+  \]
+  For the first term,
+  \[
+    \Linvpair{\frac{1}{s+2}}{e^{-2t}u(t)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
+  \]
+  Using the time-delay property on the same base pair,
+  \[
+    \Linvpair{\frac{e^{-3s}}{s+2}}{e^{-2(t-3)}u(t-3)},
+    \qquad
+    \ROC:\ \text{Re}\{s\}>-2.
+  \]
+  Therefore
+  \[
+    \Linvpair{e^{-6}\frac{e^{-3s}}{s+2}}{e^{-6}e^{-2(t-3)}u(t-3)}
+    =e^{-2t}u(t-3).
+  \]
+  So the time-domain signal is
+  \[
+    x(t)=e^{-2t}u(t)-e^{-2t}u(t-3)
+    =e^{-2t}\bigl(u(t)-u(t-3)\bigr).
+  \]
+  Hence
+  \[
+    x(t)=
+    \begin{cases}
+      0, & t<0,\\[2pt]
+      e^{-2t}, & 0\le t<3,\\[2pt]
+      0, & t\ge 3.
+    \end{cases}
+  \]
+  So \(x(t)\) is finite-duration, supported only on \(0\le t<3\). For such a signal, the Laplace integral converges for every \(s\), so the actual ROC is the entire \(s\)-plane.
+
+  The apparent singularity at \(s=-2\) is removable:
+  \[
+    \lim_{s\to-2}\frac{1-e^{-3(s+2)}}{s+2}
+    =\lim_{z\to0}\frac{1-e^{-3z}}{z}
+    =\lim_{z\to0} 3e^{-3z}
+    =3.
+  \]
+  Since the actual ROC is the whole plane, it includes the \(j\omega\)-axis, so the Fourier transform exists.
 
   \begin{center}
-    \begin{tikzpicture}[scale=0.78]
-      \fill[SecondaryColor, fill opacity=0.12] (-3.2,-1.6) rectangle (2.1,1.6);
-      \draw[-{Latex[length=1.8mm]}, thick] (-3.2,0)--(2.1,0) node[right] {$\sigma$};
-      \draw[-{Latex[length=1.8mm]}, thick] (0,-1.8)--(0,1.8) node[above] {$j\omega$};
-      \draw[DarkGray, thick] (-2,0) circle (0.09);
-      \node[SecondaryColor] at (-0.3,1.25) {\scriptsize entire plane};
-    \end{tikzpicture}
+    \begin{minipage}{0.40\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[SecondaryColor, fill opacity=0.10] (-3.2,-1.6) rectangle (2.1,1.6);
+        \draw[-{Latex[length=1.8mm]}, thick] (-3.2,0)--(2.1,0) node[right] {$\sigma$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-1.8)--(0,1.8) node[above] {$j\omega$};
+        \draw[DarkGray, thick] (-2.08,0.08)--(-1.92,-0.08);
+        \draw[DarkGray, thick] (-2.08,-0.08)--(-1.92,0.08);
+        \node[DarkGray] at (-2,-0.34) {\scriptsize $-2$};
+        \node[SecondaryColor] at (-0.2,1.25) {\scriptsize ROC: entire plane};
+        \node[SecondaryColor] at (-0.1,-1.3) {\scriptsize removable at \(s=-2\)};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.56\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=3.0cm,
+            slideaxis,
+            xmin=-0.4, xmax=4.6, ymin=-0.02, ymax=1.08,
+            xtick={0,1,2,3,4}, ytick=\empty,
+            xlabel={$t$}, ylabel={$x(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[DarkGray, dashed] coordinates {(3,0) (3,0.12)};
+          \addplot[signal, domain=0:3, samples=160] {exp(-2*x)};
+          \addplot[signal, thick] coordinates {(3,0) (4.6,0)};
+          \addplot[only marks, mark=*, mark options={fill=white, draw=PrimaryColor}, color=PrimaryColor] coordinates {(0,1) (3,0.00248)};
+          \addplot[only marks, mark=*, mark options={fill=PrimaryColor, draw=PrimaryColor}, color=PrimaryColor] coordinates {(3,0)};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2416,19 +2755,34 @@
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-0.05, ymax=0.75,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$y(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.75)};
-        \addplot[PrimaryColor, thick, domain=1:5.2, samples=180] {exp(-(x-1))-exp(-2*(x-1))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.40\textwidth}\centering
+      \begin{tikzpicture}[scale=0.72]
+        \fill[PrimaryColor, fill opacity=0.10] (-1,-1.8) rectangle (2.0,1.8);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.2,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-2.0)--(0,2.0) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (-1,-1.9)--(-1,1.9);
+        \draw[thick] (-1.1,0.10)--(-0.9,-0.10); \draw[thick] (-1.1,-0.10)--(-0.9,0.10);
+        \draw[thick] (-2.1,0.10)--(-1.9,-0.10); \draw[thick] (-2.1,-0.10)--(-1.9,0.10);
+        \node[DarkGray] at (-1,-0.36) {\scriptsize $-1$};
+        \node[DarkGray] at (-2,-0.36) {\scriptsize $-2$};
+        \node[DarkGray] at (0.7,-2.15) {\scriptsize ROC: $\sigma>-1$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.56\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.9cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-0.05, ymax=0.75,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$y(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.75)};
+          \addplot[PrimaryColor, thick, domain=1:5.2, samples=180] {exp(-(x-1))-exp(-2*(x-1))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2500,19 +2854,35 @@
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=0, xmax=5.2, ymin=-0.05, ymax=0.75,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$t$}, ylabel={$y(t)$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.75)};
-        \addplot[AccentColor, thick, domain=1:5.2, samples=180] {exp(-2*(x-1))-exp(-(x-1))+(x-1)*exp(-(x-1))};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.40\textwidth}\centering
+      \begin{tikzpicture}[scale=0.72]
+        \fill[PrimaryColor, fill opacity=0.10] (-1,-1.8) rectangle (2.0,1.8);
+        \draw[-{Latex[length=1.6mm]}, thick] (-3.2,0)--(2.2,0) node[right] {\scriptsize$\sigma$};
+        \draw[-{Latex[length=1.6mm]}, thick] (0,-2.0)--(0,2.0) node[above] {\scriptsize$j\omega$};
+        \draw[dashed, thick, DarkGray] (-1,-1.9)--(-1,1.9);
+        \draw[thick] (-1.1,0.10)--(-0.9,-0.10); \draw[thick] (-1.1,-0.10)--(-0.9,0.10);
+        \draw[thick] (-2.1,0.10)--(-1.9,-0.10); \draw[thick] (-2.1,-0.10)--(-1.9,0.10);
+        \node[DarkGray] at (-1,-0.36) {\scriptsize $-1$};
+        \node[DarkGray] at (-2,-0.36) {\scriptsize $-2$};
+        \node[DarkGray, align=center] at (-0.75,0.56) {\scriptsize double\\[-1pt]\scriptsize pole};
+        \node[DarkGray] at (0.7,-2.15) {\scriptsize ROC: $\sigma>-1$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.56\textwidth}\centering
+      \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=2.9cm,
+            slideaxis,
+            xmin=0, xmax=5.2, ymin=-0.05, ymax=0.75,
+            xtick={0,1,2,3,4,5}, ytick=\empty,
+            xlabel={$t$}, ylabel={$y(t)$},
+            xlabel style={anchor=west}, ylabel style={anchor=south}
+          ]
+          \addplot[DarkGray, dashed] coordinates {(1,-0.05) (1,0.75)};
+          \addplot[AccentColor, thick, domain=1:5.2, samples=180] {exp(-2*(x-1))-exp(-(x-1))+(x-1)*exp(-(x-1))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2578,14 +2948,46 @@
   \[
     x[n]=\frac12\!\left(\frac34 e^{j\pi/3}\right)^{\!n} u[n]+\frac12\!\left(\frac34 e^{-j\pi/3}\right)^{\!n} u[n].
   \]
+  Transform the first part:
+  \[
+    \Zpair{\frac12\!\left(\frac34 e^{j\pi/3}\right)^{\!n} u[n]}
+    {\frac{\frac12}{1-\frac34 e^{j\pi/3}z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac34.
+  \]
+  Transform the second part:
+  \[
+    \Zpair{\frac12\!\left(\frac34 e^{-j\pi/3}\right)^{\!n} u[n]}
+    {\frac{\frac12}{1-\frac34 e^{-j\pi/3}z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac34.
+  \]
   Therefore
   \[
-    X(z)=\frac{1-\frac38 z^{-1}}{1-\frac34 z^{-1}+\frac{9}{16}z^{-2}}.
+    X(z)=\frac{\frac12}{1-\frac34 e^{j\pi/3}z^{-1}}
+    +\frac{\frac12}{1-\frac34 e^{-j\pi/3}z^{-1}},
+    \qquad
+    \ROC:\ |z|>\frac34.
   \]
-  Poles: \(z=\frac34 e^{\pm j\pi/3}\). Zeros: \(z=0,\frac38\). ROC:
+  Combine over a common denominator:
   \[
-    |z|>\frac34.
+    X(z)=\frac{\frac12\!\left(1-\frac34 e^{-j\pi/3}z^{-1}\right)
+    +\frac12\!\left(1-\frac34 e^{j\pi/3}z^{-1}\right)}
+    {\left(1-\frac34 e^{j\pi/3}z^{-1}\right)\left(1-\frac34 e^{-j\pi/3}z^{-1}\right)}.
   \]
+  Since
+  \[
+    e^{j\pi/3}+e^{-j\pi/3}=2\cos\!\left(\frac{\pi}{3}\right)=1,
+    \qquad
+    e^{j\pi/3}e^{-j\pi/3}=1,
+  \]
+  we obtain
+  \[
+    X(z)=\frac{1-\frac38 z^{-1}}{1-\frac34 z^{-1}+\frac{9}{16}z^{-2}},
+    \qquad
+    \ROC:\ |z|>\frac34.
+  \]
+  Poles: \(z=\frac34 e^{\pm j\pi/3}\). Zeros: \(z=0,\frac38\).
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -2606,11 +3008,45 @@
 
   \medskip
   \SketchLabel{}
-  Let \(x_0[n]=n\left(\frac13\right)^n u[n]\). Then
+  Start from the geometric sequence
+  \[
+    g[n]=\left(\frac13\right)^n u[n].
+  \]
+  Then
+  \[
+    \Zpair{g[n]}{\frac{1}{1-\frac13 z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac13.
+  \]
+  Using the differentiation property,
+  \[
+    \Zpair{n\,g[n]}{-z\frac{d}{dz}G(z)},
+    \qquad
+    \ROC:\ |z|>\frac13.
+  \]
+  Since
+  \[
+    G(z)=\frac{1}{1-\frac13 z^{-1}},
+    \qquad
+    -z\frac{dG}{dz}
+    =-z\frac{d}{dz}\left(1-\frac13 z^{-1}\right)^{-1}
+    =\frac{\frac13 z^{-1}}{\left(1-\frac13 z^{-1}\right)^2},
+  \]
+  we obtain
   \[
     \Zpair{n\left(\frac13\right)^n u[n]}{\frac{\frac13 z^{-1}}{\left(1-\frac13 z^{-1}\right)^2}},
     \qquad
-    X_0(z)=\frac{\frac13 z^{-1}}{\left(1-\frac13 z^{-1}\right)^2}.
+    \ROC:\ |z|>\frac13.
+  \]
+  Therefore, with
+  \[
+    x_0[n]=n\left(\frac13\right)^n u[n],
+  \]
+  we have
+  \[
+    X_0(z)=\frac{\frac13 z^{-1}}{\left(1-\frac13 z^{-1}\right)^2},
+    \qquad
+    \ROC:\ |z|>\frac13.
   \]
   Since \(x[n]=x_0[n-2]\),
   \[
@@ -2636,14 +3072,38 @@
 
   \medskip
   \SketchLabel{}
+  Split the sequence into
   \[
-    X(z)=\frac{1}{1-\frac14 z^{-1}}+\frac{1}{1-2 z^{-1}}
-    =\frac{2\left(1-\frac98 z^{-1}\right)}{\left(1-\frac14 z^{-1}\right)(1-2 z^{-1})}.
+    x_1[n]=\left(\frac14\right)^n u[n],
+    \qquad
+    x_2[n]=-2^n u[-n-1].
   \]
-  Poles: \(z=\frac14,2\). Zeros: \(z=0,\frac98\). ROC:
+  For the right-sided part,
   \[
-    \frac14<|z|<2.
+    \Zpair{x_1[n]}{\frac{1}{1-\frac14 z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac14.
   \]
+  For the left-sided part,
+  \[
+    \Zpair{x_2[n]}{\frac{1}{1-2 z^{-1}}},
+    \qquad
+    \ROC:\ |z|<2.
+  \]
+  Therefore
+  \[
+    X(z)=\frac{1}{1-\frac14 z^{-1}}+\frac{1}{1-2 z^{-1}},
+    \qquad
+    \ROC:\ \frac14<|z|<2.
+  \]
+  Combine the two terms:
+  \[
+    X(z)=\frac{\left(1-2z^{-1}\right)+\left(1-\frac14 z^{-1}\right)}
+    {\left(1-\frac14 z^{-1}\right)\left(1-2z^{-1}\right)}
+    =\frac{2\left(1-\frac98 z^{-1}\right)}
+    {\left(1-\frac14 z^{-1}\right)\left(1-2z^{-1}\right)}.
+  \]
+  Poles: \(z=\frac14,2\). Zeros: \(z=0,\frac98\).
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -2673,13 +3133,17 @@
   \[
     z^3X(z)=z^3-2z^2+2z-1=(z-1)(z^2-z+1).
   \]
+  Hence
+  \[
+    X(z)=\frac{(z-1)(z^2-z+1)}{z^3}.
+  \]
   So the zeros are
   \[
     z=1,\qquad z=e^{j\pi/3},\qquad z=e^{-j\pi/3},
   \]
-  and because the sequence is finite and right-sided,
+  and the factor \(z^3\) in the denominator gives a pole of order \(3\) at \(z=0\). Since the sequence is finite and right-sided,
   \[
-    \ROC:\ z\neq0.
+    \ROC:\ \mathbb{C}\setminus\{0\}.
   \]
 
   \begin{center}
@@ -2687,9 +3151,11 @@
       \draw[-{Latex[length=1.8mm]}, thick] (-2.1,0)--(2.1,0) node[right] {$\text{Re}\{z\}$};
       \draw[-{Latex[length=1.8mm]}, thick] (0,-2.1)--(0,2.1) node[above] {$\text{Im}\{z\}$};
       \draw[PrimaryColor, thick] (0,0) circle (1.55);
+      \draw[thick] (-0.08,0.08)--(0.08,-0.08); \draw[thick] (-0.08,-0.08)--(0.08,0.08);
       \draw[thick] (1.55,0) circle (0.07);
       \draw[thick] (0.78,1.35) circle (0.07);
       \draw[thick] (0.78,-1.35) circle (0.07);
+      \node[DarkGray] at (-0.18,-0.22) {\scriptsize pole at \(0\)};
     \end{tikzpicture}
   \end{center}
 \end{examplebox}
@@ -2699,19 +3165,50 @@
 
   \medskip
   \SketchLabel{}
-  For the undelayed sequence,
+  First define the undelayed sequence
   \[
-    X_0(z)=\frac{1-\frac14 z^{-1}}{1-\frac12 z^{-1}+\frac14 z^{-2}}.
+    x_0[n]=\left(\frac12\right)^n\cos\!\left(\frac{\pi n}{3}\right)u[n].
+  \]
+  Using Euler's formula,
+  \[
+    x_0[n]=\frac12\!\left(\frac12 e^{j\pi/3}\right)^{\!n}u[n]
+    +\frac12\!\left(\frac12 e^{-j\pi/3}\right)^{\!n}u[n].
+  \]
+  Transform the first part:
+  \[
+    \Zpair{\frac12\!\left(\frac12 e^{j\pi/3}\right)^{\!n}u[n]}
+    {\frac{\frac12}{1-\frac12 e^{j\pi/3}z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  Transform the second part:
+  \[
+    \Zpair{\frac12\!\left(\frac12 e^{-j\pi/3}\right)^{\!n}u[n]}
+    {\frac{\frac12}{1-\frac12 e^{-j\pi/3}z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  Therefore
+  \[
+    X_0(z)=\frac{\frac12}{1-\frac12 e^{j\pi/3}z^{-1}}
+    +\frac{\frac12}{1-\frac12 e^{-j\pi/3}z^{-1}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  Combining the terms gives
+  \[
+    X_0(z)=\frac{1-\frac14 z^{-1}}{1-\frac12 z^{-1}+\frac14 z^{-2}},
+    \qquad
+    \ROC:\ |z|>\frac12.
   \]
   A unit delay gives
   \[
     X(z)=z^{-1}X_0(z)
-    =\frac{z^{-1}\left(1-\frac14 z^{-1}\right)}{1-\frac12 z^{-1}+\frac14 z^{-2}}.
-  \]
-  The poles are \(z=\frac12e^{\pm j\pi/3}\), the zeros are \(z=0,\frac14\), and
-  \[
+    =\frac{z^{-1}\left(1-\frac14 z^{-1}\right)}{1-\frac12 z^{-1}+\frac14 z^{-2}},
+    \qquad
     \ROC:\ |z|>\frac12.
   \]
+  The poles are \(z=\frac12e^{\pm j\pi/3}\), the zeros are \(z=0,\frac14\).
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -2747,22 +3244,22 @@
   \]
   Poles: \(z=\frac12,\frac13\). No finite zeros (numerator is \(1\)).
 
-  \textbf{Verification via partial fractions:}
-  \[
-    Y(z)=\frac{A}{1-\frac12 z^{-1}}+\frac{B}{1-\frac13 z^{-1}}.
-  \]
-  Let \(r=z^{-1}\). Then
-  \[
-    A=\left.(1-\tfrac12 r)\frac{1}{(1-\frac12 r)(1-\frac13 r)}\right|_{r=2}=3,
-    \qquad
-    B=\left.(1-\tfrac13 r)\frac{1}{(1-\frac12 r)(1-\frac13 r)}\right|_{r=3}=-2.
-  \]
-  So
-  \[
-    Y(z)=\frac{3}{1-\frac12 z^{-1}}-\frac{2}{1-\frac13 z^{-1}}
-    \quad\Longrightarrow\quad
-    y[n]=3\!\left(\tfrac12\right)^n u[n]-2\!\left(\tfrac13\right)^n u[n].
-  \]
+  % \textbf{Verification via partial fractions:}
+  % \[
+  %   Y(z)=\frac{A}{1-\frac12 z^{-1}}+\frac{B}{1-\frac13 z^{-1}}.
+  % \]
+  % Let \(r=z^{-1}\). Then
+  % \[
+  %   A=\left.(1-\tfrac12 r)\frac{1}{(1-\frac12 r)(1-\frac13 r)}\right|_{r=2}=3,
+  %   \qquad
+  %   B=\left.(1-\tfrac13 r)\frac{1}{(1-\frac12 r)(1-\frac13 r)}\right|_{r=3}=-2.
+  % \]
+  % So
+  % \[
+  %   Y(z)=\frac{3}{1-\frac12 z^{-1}}-\frac{2}{1-\frac13 z^{-1}}
+  %   \quad\Longrightarrow\quad
+  %   y[n]=3\!\left(\tfrac12\right)^n u[n]-2\!\left(\tfrac13\right)^n u[n].
+  % \]
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -2784,7 +3281,25 @@
 
   \medskip
   \SketchLabel{}
+  First transform the input:
+  \[
+    \Zpair{\left(\frac12\right)^n u[n]}{\frac{1}{1-\frac12 z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  So
+  \[
+    X(z)=\frac{1}{1-\frac12 z^{-1}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
   By the \textbf{accumulation property},
+  \[
+    \Zpair{u[n]}{\frac{1}{1-z^{-1}}},
+    \qquad
+    \ROC:\ |z|>1.
+  \]
+  Therefore
   \[
     Y(z)=\frac{X(z)}{1-z^{-1}}=\frac{1}{(1-z^{-1})(1-\frac12 z^{-1})},
     \qquad
@@ -2792,22 +3307,22 @@
   \]
   The new pole at \(z=1\) from the accumulator restricts the ROC to \(|z|>1\).
 
-  \textbf{Verification:}
-  \[
-    Y(z)=\frac{A}{1-z^{-1}}+\frac{B}{1-\frac12 z^{-1}}.
-  \]
-  With \(r=z^{-1}\),
-  \[
-    A=\left.(1-r)\frac{1}{(1-r)(1-\frac12 r)}\right|_{r=1}=2,
-    \qquad
-    B=\left.(1-\tfrac12 r)\frac{1}{(1-r)(1-\frac12 r)}\right|_{r=2}=-1.
-  \]
-  Hence
-  \[
-    Y(z)=\frac{2}{1-z^{-1}}-\frac{1}{1-\frac12 z^{-1}},
-  \]
-  so \(y[n]=\bigl(2-\left(\frac12\right)^n\bigr)u[n]\).
-  Check: \(y[0]=1\), \(y[1]=\frac32\), \(y[\infty]\to2\).
+  % \textbf{Verification:}
+  % \[
+  %   Y(z)=\frac{A}{1-z^{-1}}+\frac{B}{1-\frac12 z^{-1}}.
+  % \]
+  % With \(r=z^{-1}\),
+  % \[
+  %   A=\left.(1-r)\frac{1}{(1-r)(1-\frac12 r)}\right|_{r=1}=2,
+  %   \qquad
+  %   B=\left.(1-\tfrac12 r)\frac{1}{(1-r)(1-\frac12 r)}\right|_{r=2}=-1.
+  % \]
+  % Hence
+  % \[
+  %   Y(z)=\frac{2}{1-z^{-1}}-\frac{1}{1-\frac12 z^{-1}},
+  % \]
+  % so \(y[n]=\bigl(2-\left(\frac12\right)^n\bigr)u[n]\).
+  % Check: \(y[0]=1\), \(y[1]=\frac32\), \(y[\infty]\to2\).
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -2823,6 +3338,8 @@
     \end{tikzpicture}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \section{Inverse z-Transform}
 
@@ -2852,18 +3369,23 @@
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=-0.2, xmax=5.2, ymin=-0.05, ymax=2.2,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$n$}, ylabel={$x[n]$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot+[discrete, color=PrimaryColor, mark options={fill=white, draw=PrimaryColor}] coordinates {(0,2) (1,1) (2,0.625) (3,0.4375) (4,0.3203) (5,0.2383)};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[AccentColor, fill opacity=0.12, even odd rule] (-1.9,-1.9) rectangle (1.9,1.9) (0,0) circle (0.98);
+        \draw[-{Latex[length=1.8mm]}, thick] (-2.0,0)--(2.0,0) node[right] {$\text{Re}\{z\}$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-2.0)--(0,2.0) node[above] {$\text{Im}\{z\}$};
+        \draw[PrimaryColor, thick] (0,0) circle (1.3);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.33);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.98);
+        \draw[thick] (0.25,0.08)--(0.41,-0.08); \draw[thick] (0.25,-0.08)--(0.41,0.08);
+        \draw[thick] (0.90,0.08)--(1.06,-0.08); \draw[thick] (0.90,-0.08)--(1.06,0.08);
+        \node[DarkGray] at (0.33,-0.25) {\scriptsize $\frac14$};
+        \node[DarkGray] at (0.98,-0.25) {\scriptsize $\frac34$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \ZTSequencePlot{-1.2}{8.2}{-0.05}{2.15}{-1,0,...,8}{x >= 0 ? pow(0.25,x) + pow(0.75,x) : 0}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2893,18 +3415,25 @@
   \]
 
   \begin{center}
-    \begin{tikzpicture}[scale=0.78]
-      \fill[AccentColor, fill opacity=0.14, even odd rule] (0,0) circle (1.55) (0,0) circle (0.5);
-      \draw[-{Latex[length=1.8mm]}, thick] (-2.05,0)--(2.05,0) node[right] {$\text{Re}\{z\}$};
-      \draw[-{Latex[length=1.8mm]}, thick] (0,-2.05)--(0,2.05) node[above] {$\text{Im}\{z\}$};
-      \draw[PrimaryColor, thick] (0,0) circle (1.3);
-      \draw[dashed, thick, DarkGray] (0,0) circle (0.5);
-      \draw[dashed, thick, DarkGray] (0,0) circle (1.55);
-      \draw[thick] (0.42,0.08)--(0.58,-0.08); \draw[thick] (0.42,-0.08)--(0.58,0.08);
-      \draw[thick] (1.47,0.08)--(1.63,-0.08); \draw[thick] (1.47,-0.08)--(1.63,0.08);
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[AccentColor, fill opacity=0.14, even odd rule] (0,0) circle (1.55) (0,0) circle (0.5);
+        \draw[-{Latex[length=1.8mm]}, thick] (-2.05,0)--(2.05,0) node[right] {$\text{Re}\{z\}$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-2.05)--(0,2.05) node[above] {$\text{Im}\{z\}$};
+        \draw[PrimaryColor, thick] (0,0) circle (1.3);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.5);
+        \draw[dashed, thick, DarkGray] (0,0) circle (1.55);
+        \draw[thick] (0.42,0.08)--(0.58,-0.08); \draw[thick] (0.42,-0.08)--(0.58,0.08);
+        \draw[thick] (1.47,0.08)--(1.63,-0.08); \draw[thick] (1.47,-0.08)--(1.63,0.08);
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \ZTSequencePlot{-5.2}{5.2}{-0.24}{0.03}{-5,-4,...,5}{(x <= -1 ? -(6/5)*pow(2,x) : 0) + (x >= 0 ? -(1/5)*pow(0.3333333333,x) : 0)}
+    \end{minipage}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \begin{examplebox}{Problem 11.3}
   \Prompt{Invert \(X(z)=\dfrac{1-\frac56 z^{-1}}{(1-\frac12 z^{-1})(1-\frac13 z^{-1})}\) for \(|z|<\frac13\).}
@@ -2932,16 +3461,21 @@
   \]
 
   \begin{center}
-    \begin{tikzpicture}[scale=0.78]
-      \fill[SecondaryColor, fill opacity=0.14] (0,0) circle (0.5);
-      \draw[-{Latex[length=1.8mm]}, thick] (-2.05,0)--(2.05,0) node[right] {$\text{Re}\{z\}$};
-      \draw[-{Latex[length=1.8mm]}, thick] (0,-2.05)--(0,2.05) node[above] {$\text{Im}\{z\}$};
-      \draw[PrimaryColor, thick] (0,0) circle (1.3);
-      \draw[dashed, thick, DarkGray] (0,0) circle (0.5);
-      \draw[dashed, thick, DarkGray] (0,0) circle (0.75);
-      \draw[thick] (0.42,0.08)--(0.58,-0.08); \draw[thick] (0.42,-0.08)--(0.58,0.08);
-      \draw[thick] (0.67,0.08)--(0.83,-0.08); \draw[thick] (0.67,-0.08)--(0.83,0.08);
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[SecondaryColor, fill opacity=0.14] (0,0) circle (0.5);
+        \draw[-{Latex[length=1.8mm]}, thick] (-2.05,0)--(2.05,0) node[right] {$\text{Re}\{z\}$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-2.05)--(0,2.05) node[above] {$\text{Im}\{z\}$};
+        \draw[PrimaryColor, thick] (0,0) circle (1.3);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.5);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.75);
+        \draw[thick] (0.42,0.08)--(0.58,-0.08); \draw[thick] (0.42,-0.08)--(0.58,0.08);
+        \draw[thick] (0.67,0.08)--(0.83,-0.08); \draw[thick] (0.67,-0.08)--(0.83,0.08);
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \ZTSequencePlot{-3.2}{4.2}{-72}{6}{-3,-2,...,4}{x <= -1 ? 2*pow(0.5,x) - 3*pow(0.3333333333,x) : 0}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2953,27 +3487,53 @@
   Write
   \[
     \frac{1+\frac12 z^{-1}}{\left(1-\frac12 z^{-1}\right)^2}
-    =\frac{1}{1-\frac12 z^{-1}}+\frac{\frac12 z^{-1}}{\left(1-\frac12 z^{-1}\right)^2}.
+    =\frac{1}{1-\frac12 z^{-1}}+\frac{z^{-1}}{\left(1-\frac12 z^{-1}\right)^2}.
+  \]
+  Now invert each part separately.
+  For the first term,
+  \[
+    \Zinvpair{\frac{1}{1-\frac12 z^{-1}}}{\left(\frac12\right)^n u[n]},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  For the second term, start from the repeated-pole pair
+  \[
+    \Zpair{n\left(\frac12\right)^n u[n]}{\frac{\frac12 z^{-1}}{\left(1-\frac12 z^{-1}\right)^2}},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  Multiplying by \(2\),
+  \[
+    \Zinvpair{\frac{z^{-1}}{\left(1-\frac12 z^{-1}\right)^2}}{2n\left(\frac12\right)^n u[n]},
+    \qquad
+    \ROC:\ |z|>\frac12.
   \]
   Therefore
   \[
-    x[n]=\left(\frac12\right)^n u[n]+n\left(\frac12\right)^n u[n]
-    =(n+1)\left(\frac12\right)^n u[n].
+    x[n]=\left(\frac12\right)^n u[n]+2n\left(\frac12\right)^n u[n]
+    =(2n+1)\left(\frac12\right)^n u[n].
+  \]
+  Since the sequence is right-sided, the ROC stays outside the repeated pole:
+  \[
+    \ROC:\ |z|>\frac12.
   \]
 
   \begin{center}
-    \begin{tikzpicture}
-      \begin{axis}[
-          width=0.62\textwidth, height=2.9cm,
-          slideaxis,
-          xmin=-0.2, xmax=5.2, ymin=-0.05, ymax=1.15,
-          xtick={0,1,2,3,4,5}, ytick=\empty,
-          xlabel={$n$}, ylabel={$x[n]$},
-          xlabel style={anchor=west}, ylabel style={anchor=south}
-        ]
-        \addplot+[discrete, color=PrimaryColor, mark options={fill=white, draw=PrimaryColor}] coordinates {(0,1) (1,1) (2,0.75) (3,0.5) (4,0.3125) (5,0.1875)};
-      \end{axis}
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[AccentColor, fill opacity=0.12, even odd rule] (-1.9,-1.9) rectangle (1.9,1.9) (0,0) circle (0.65);
+        \draw[-{Latex[length=1.8mm]}, thick] (-2.0,0)--(2.0,0) node[right] {$\text{Re}\{z\}$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-2.0)--(0,2.0) node[above] {$\text{Im}\{z\}$};
+        \draw[PrimaryColor, thick] (0,0) circle (1.3);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.65);
+        \draw[thick] (0.57,0.08)--(0.73,-0.08); \draw[thick] (0.57,-0.08)--(0.73,0.08);
+        \node[DarkGray] at (0.98,0.28) {\scriptsize double pole};
+        \node[DarkGray] at (0.65,-0.24) {\scriptsize $\frac12$};
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \ZTSequencePlot{-1.2}{8.2}{-0.05}{1.65}{-1,0,...,8}{x >= 0 ? (2*x + 1)*pow(0.5,x) : 0}
+    \end{minipage}
   \end{center}
 \end{examplebox}
 
@@ -2982,24 +3542,108 @@
 
   \medskip
   \SketchLabel{}
-  This is the delayed damped-cosine pair:
+  First separate the delay:
   \[
-    x[n]=\left(\frac12\right)^{n-1}\cos\!\left(\frac{\pi(n-1)}{3}\right)u[n-1].
+    X(z)=z^{-1}X_0(z),
+    \qquad
+    X_0(z)=\frac{1-\frac14 z^{-1}}{1-\frac12 z^{-1}+\frac14 z^{-2}}.
+  \]
+  Now factor the denominator of \(X_0(z)\). Since
+  \[
+    1-\frac12 z^{-1}+\frac14 z^{-2}
+    =1-2\left(\frac12\right)\cos\!\left(\frac{\pi}{3}\right)z^{-1}
+    +\left(\frac12\right)^2 z^{-2},
+  \]
+  we can write
+  \[
+    1-\frac12 z^{-1}+\frac14 z^{-2}
+    =\left(1-\frac12 e^{j\pi/3}z^{-1}\right)\left(1-\frac12 e^{-j\pi/3}z^{-1}\right).
+  \]
+  Therefore
+  \[
+    X_0(z)=\frac{A}{1-\frac12 e^{j\pi/3}z^{-1}}
+    +\frac{B}{1-\frac12 e^{-j\pi/3}z^{-1}}.
+  \]
+  Set \(r=z^{-1}\). Using residues at the two simple poles in the \(r\)-plane,
+  \[
+    A=\left.(1-\tfrac12 e^{j\pi/3}r)\,X_0(r)\right|_{r=2e^{-j\pi/3}}
+    =\left.\frac{1-\frac14 r}{1-\frac12 e^{-j\pi/3}r}\right|_{r=2e^{-j\pi/3}}
+    =\frac{1-\frac12 e^{-j\pi/3}}{1-e^{-j2\pi/3}}
+    =\frac12,
+  \]
+  \[
+    B=\left.(1-\tfrac12 e^{-j\pi/3}r)\,X_0(r)\right|_{r=2e^{j\pi/3}}
+    =\left.\frac{1-\frac14 r}{1-\frac12 e^{j\pi/3}r}\right|_{r=2e^{j\pi/3}}
+    =\frac{1-\frac12 e^{j\pi/3}}{1-e^{j2\pi/3}}
+    =\frac12.
+  \]
+  So
+  \[
+    X_0(z)=\frac{\frac12}{1-\frac12 e^{j\pi/3}z^{-1}}
+    +\frac{\frac12}{1-\frac12 e^{-j\pi/3}z^{-1}}.
+  \]
+  Since the given ROC is \(|z|>\frac12\), both terms are right-sided:
+  \[
+    \Zinvpair{\frac{1}{1-\frac12 e^{j\pi/3}z^{-1}}}{\left(\frac12 e^{j\pi/3}\right)^n u[n]},
+    \qquad
+    \ROC:\ |z|>\frac12,
+  \]
+  \[
+    \Zinvpair{\frac{1}{1-\frac12 e^{-j\pi/3}z^{-1}}}{\left(\frac12 e^{-j\pi/3}\right)^n u[n]},
+    \qquad
+    \ROC:\ |z|>\frac12.
+  \]
+  Hence
+  \[
+    x_0[n]
+    =\frac12\left(\frac12 e^{j\pi/3}\right)^n u[n]
+    +\frac12\left(\frac12 e^{-j\pi/3}\right)^n u[n].
+  \]
+  Factor out \(\left(\frac12\right)^n\):
+  \[
+    x_0[n]
+    =\left(\frac12\right)^n
+    \frac{e^{j\pi n/3}+e^{-j\pi n/3}}{2}\,u[n].
+  \]
+  By Euler's formula,
+  \[
+    \frac{e^{j\pi n/3}+e^{-j\pi n/3}}{2}
+    =\cos\!\left(\frac{\pi n}{3}\right),
+  \]
+  so
+  \[
+    x_0[n]=\left(\frac12\right)^n\cos\!\left(\frac{\pi n}{3}\right)u[n].
+  \]
+  Finally, the factor \(z^{-1}\) gives a one-sample delay:
+  \[
+    x[n]=x_0[n-1]
+    =\left(\frac12\right)^{n-1}\cos\!\left(\frac{\pi(n-1)}{3}\right)u[n-1].
+  \]
+  The ROC is unchanged by the delay, so
+  \[
+    \ROC:\ |z|>\frac12.
   \]
 
   \begin{center}
-    \begin{tikzpicture}[scale=0.78]
-      \fill[AccentColor, fill opacity=0.14, even odd rule] (-1.9,-1.9) rectangle (1.9,1.9) (0,0) circle (0.75);
-      \draw[-{Latex[length=1.8mm]}, thick] (-2,0)--(2,0) node[right] {$\text{Re}\{z\}$};
-      \draw[-{Latex[length=1.8mm]}, thick] (0,-2)--(0,2) node[above] {$\text{Im}\{z\}$};
-      \draw[PrimaryColor, thick] (0,0) circle (1.3);
-      \draw[dashed, thick, DarkGray] (0,0) circle (0.75);
-      \draw[thick] (0.25,0.65)--(0.4,0.5); \draw[thick] (0.25,0.5)--(0.4,0.65);
-      \draw[thick] (0.25,-0.65)--(0.4,-0.5); \draw[thick] (0.25,-0.5)--(0.4,-0.65);
-      \draw[thick] (0,0) circle (0.07); \draw[thick] (0.38,0) circle (0.07);
-    \end{tikzpicture}
+    \begin{minipage}{0.42\textwidth}\centering
+      \begin{tikzpicture}[scale=0.78]
+        \fill[AccentColor, fill opacity=0.14, even odd rule] (-1.9,-1.9) rectangle (1.9,1.9) (0,0) circle (0.75);
+        \draw[-{Latex[length=1.8mm]}, thick] (-2,0)--(2,0) node[right] {$\text{Re}\{z\}$};
+        \draw[-{Latex[length=1.8mm]}, thick] (0,-2)--(0,2) node[above] {$\text{Im}\{z\}$};
+        \draw[PrimaryColor, thick] (0,0) circle (1.3);
+        \draw[dashed, thick, DarkGray] (0,0) circle (0.75);
+        \draw[thick] (0.25,0.65)--(0.4,0.5); \draw[thick] (0.25,0.5)--(0.4,0.65);
+        \draw[thick] (0.25,-0.65)--(0.4,-0.5); \draw[thick] (0.25,-0.5)--(0.4,-0.65);
+        \draw[thick] (0,0) circle (0.07); \draw[thick] (0.38,0) circle (0.07);
+      \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}\centering
+      \ZTSequencePlot{-1.2}{9.2}{-0.18}{1.05}{-1,0,...,9}{x >= 1 ? pow(0.5,x-1)*cos(60*(x-1)) : 0}
+    \end{minipage}
   \end{center}
 \end{examplebox}
+
+\newpage
 
 \section{Applications of z-Transform: Causality, Stability from ROC}
 
@@ -3112,11 +3756,32 @@
 
   \medskip
   \SketchLabel{}
-  The ROC is
+  Split the sequence into
   \[
-    0.5<|z|<1.2,
+    x_1[n]=\left(\frac12\right)^n u[n],
+    \qquad
+    x_2[n]=-1.2^n u[-n-1].
   \]
-  which includes the unit circle. Hence the DTFT exists. Because the sequence is two-sided, it is not causal.
+  Then
+  \[
+    \Zpair{x_1[n]}{\frac{1}{1-\frac12 z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac12,
+  \]
+  \[
+    \Zpair{x_2[n]}{\frac{1}{1-1.2 z^{-1}}},
+    \qquad
+    \ROC:\ |z|<1.2.
+  \]
+  Therefore
+  \[
+    X(z)=\frac{1}{1-\frac12 z^{-1}}+\frac{1}{1-1.2 z^{-1}}
+    =\frac{2-1.7z^{-1}}{(1-\frac12 z^{-1})(1-1.2 z^{-1})},
+  \]
+  \[
+    \ROC:\ \frac12<|z|<1.2.
+  \]
+  The unit circle \(|z|=1\) lies inside this annulus, so the DTFT exists. Because the sequence is two-sided, it is not causal.
 
   \begin{center}
     \begin{tikzpicture}[scale=0.78]
@@ -3137,10 +3802,29 @@
 
   \medskip
   \SketchLabel{}
+  Split the impulse response into
+  \[
+    h_1[n]=\left(\frac23\right)^n u[n],
+    \qquad
+    h_2[n]=-\left(\frac43\right)^n u[-n-1].
+  \]
+  Then
+  \[
+    \Zpair{h_1[n]}{\frac{1}{1-\frac23 z^{-1}}},
+    \qquad
+    \ROC:\ |z|>\frac23,
+  \]
+  \[
+    \Zpair{h_2[n]}{\frac{1}{1-\frac43 z^{-1}}},
+    \qquad
+    \ROC:\ |z|<\frac43.
+  \]
+  Therefore
   \[
     H(z)=\frac{1}{1-\frac23 z^{-1}}+\frac{1}{1-\frac43 z^{-1}}
     =\frac{2-2z^{-1}}{(1-\frac23 z^{-1})(1-\frac43 z^{-1})},
-    \qquad
+  \]
+  \[
     \ROC:\ \frac23<|z|<\frac43.
   \]
   Since the ROC does not include \(z=\infty\), the system is \textbf{not causal}. The unit circle lies inside the annulus (\(\frac23<1<\frac43\)), so the system is \textbf{stable} and the DTFT exists.

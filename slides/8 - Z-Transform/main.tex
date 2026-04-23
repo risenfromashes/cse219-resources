@@ -1064,17 +1064,17 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}[t]{Example 10.7: \texorpdfstring{$b^{-|n|}$}{b^-|n|}}
+\begin{frame}[t]{Example 10.7: \texorpdfstring{$b^{|n|}$}{b^|n|}}
   \small
   \begin{columns}[T]
     \begin{column}{0.56\textwidth}
       Let
       \[
-        x[n]=b^{-|n|}, \qquad b>0.
+        x[n]=b^{|n|}, \qquad b>0.
       \]
       Write it as
       \[
-        x[n]=b^{-n}u[n]+b^n u[-n-1].
+        x[n]=b^n u[n]+b^{-n} u[-n-1].
       \]
       Then the ROC depends strongly on $b$:
       \begin{itemize}
@@ -1431,12 +1431,18 @@
   \[
     X(z)=\log(1+az^{-1}), \qquad |z|>|a|.
   \]
-  Using the Taylor series
+  From the geometric series expansion, we have:
   \[
-    \log(1+v)=\sum_{n=1}^{\infty}\frac{(-1)^{n+1}v^n}{n},
-    \qquad |v|<1,
+    \frac{1}{1+t}=1-t+t^2-t^3+\cdots, \qquad |t|<1.
   \]
-  with $v=az^{-1}$, we obtain
+  Integrating from $0$ to $v$ gives
+  \[
+    \log(1+v)=\int_0^v \frac{1}{1+t}\,dt
+    =\int_0^v (1-t+t^2-\cdots)\,dt
+    =\sum_{n=1}^{\infty}\frac{(-1)^{n+1}v^n}{n},
+    \qquad |v|<1.
+  \]
+  Now set $v=az^{-1}$. Since $|z|>|a|$, we have $|az^{-1}|<1$, so
   \[
     X(z)=\sum_{n=1}^{\infty}\frac{(-1)^{n+1}a^n z^{-n}}{n}.
   \]

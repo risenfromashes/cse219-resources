@@ -551,7 +551,7 @@
             width=\textwidth, height=5.5cm,
             axis lines=middle, axis line style={shorten >=-5pt, shorten <=-5pt, -{Latex[length=2mm]}, thick},
             xmin=0, xmax=6.5, ymin=-0.36, ymax=1.5,
-            xtick={0, 3.1416, 6.2832}, xticklabels={$0$, $\omega_s/2$, $\omega_s$},
+            xtick={0, 3.1416, 6.2832}, xticklabels={$0$, $\pi\quad$, $2\pi$},
             ytick=\empty,
             xlabel={$\omega$}, ylabel={$|X_p(j\omega)|$},
             xlabel style={anchor=west,xshift=5pt}, ylabel style={anchor=south,yshift=5pt},
@@ -564,7 +564,7 @@
           \addplot[name path=f, samples=100, domain=0:6.28, thick, AccentColor!40] {dtft(x)};
           \addplot[ycomb, mark=*, mark size=1.5pt, thick, AccentColor, samples=12, domain=0:5.7596] {dtft(x)};
           \draw[dashed, DarkGray, thin] (axis cs:3.1416,-0.3) -- (axis cs:3.1416,1.35);
-          \draw[<->] (axis cs:0,-0.5) -- node[below] {$\frac{\omega_s}{N}$} (axis cs:0.5236,-0.5);
+          \draw[<->] (axis cs:0,-0.5) -- node[below] {$\frac{2\pi}{N}$} (axis cs:0.5236,-0.5);
           \draw[<->, thin] (axis cs:0,-0.28) -- node[below, font=\scriptsize] {$k=0,\dots,\frac{N}{2}$} (axis cs:3.1416,-0.28);
           \draw[<->, thin] (axis cs:3.1416,-0.28) -- node[below, font=\scriptsize] {$k=\frac{N}{2}+1,\dots,N-1$} (axis cs:6.2832,-0.28);
           \node[font=\scriptsize, AccentColor] at (axis cs:1.7,1.28) {DFT evaluates $N$ bins};
